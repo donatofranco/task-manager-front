@@ -1,11 +1,6 @@
 'use client';
 import React, { createContext, useContext, useState, useEffect } from 'react';
-
-type AuthContextType = {
-  isAuthenticated: boolean;
-  login: (token: string) => void;
-  logout: () => void;
-};
+import { AuthContextType } from '@/types';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 

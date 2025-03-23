@@ -3,10 +3,11 @@ import { useAuth } from '@/context/AuthContext';
 import { useState, useEffect } from 'react';
 import { fetchTasks, addTask, deleteTask } from '@/lib/api';
 import { useRouter } from 'next/navigation';
+import { Task } from '@/types';
 
 export default function DashboardPage() {
   const { isAuthenticated } = useAuth();
-  const [tasks, setTasks] = useState<any[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const router = useRouter();
@@ -88,7 +89,7 @@ export default function DashboardPage() {
       </form>
 
       <ul className="space-y-4">
-        {tasks.map((task: any) => (
+        {tasks.map((task: Task) => (
           <li key={task.id} className="p-4 border rounded">
             <h3 className="text-lg">{task.title}</h3>
             <p>{task.description}</p>

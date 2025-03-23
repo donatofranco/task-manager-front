@@ -1,4 +1,5 @@
 import { fetchWithAuth } from './fetchWithAuth';
+import { Task } from '@/types';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api'
 
@@ -67,11 +68,4 @@ export const deleteTask = async (id: number): Promise<void> => {
   return await fetchWithAuth(`${API_URL}/tasks/${id}`, {
     method: 'DELETE',
   });
-};
-
-type Task = {
-  id: number;
-  title: string;
-  description: string;
-  completed: boolean;
 };
