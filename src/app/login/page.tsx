@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { loginUser } from '@/lib/api'
 import { useAuth } from '@/context/AuthContext'
+import { Mail, KeyRound } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter()
@@ -31,39 +32,45 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="flex justify-center items-center h-screen text-center">
+    <main className="flex justify-center items-center h-screen text-center align-middle">
       <form
         onSubmit={handleSubmit}
-        className="bg-black-400/20 p-6 rounded-2xl shadow-lg shadow-cyan-200 w-90"
+        className="flex justify-center items-center text-center align-middle flex-col bg-black p-2 rounded-2xl shadow-lg shadow-cyan-200 w-90"
       >
-        <h2 className="text-2xl mb-4">Iniciar Sesión</h2>
+        <h2 className="text-2xl mb-4 text-cyan-400">Iniciar Sesión</h2>
         {error && <p className="text-red-500 mb-2">{error}</p>}
 
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          className="w-full mb-4 p-2 shadow-sm shadow-cyan-200 rounded-2xl focus:shadow-md"
-        />
+        <div className='flex justify-center items-center align-middle mb-4 w-80'>
+          <Mail className='m-2 text-cyan-400' />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="w-full pl-4 pt-1 pb-1 shadow-sm shadow-cyan-200 rounded-2xl focus:shadow-md"
+          />
+        </div>
 
-        <input
-          type="password"
-          placeholder="Contraseña"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          className="w-full mb-4 p-2 shadow-sm shadow-cyan-200 rounded-2xl focus:shadow-md"
-        />
+        <div className='flex justify-center items-center align-middle mb-4 w-80'>
+          <KeyRound className='m-2 text-cyan-400' />
+          <input
+            type="password"
+            placeholder="Contraseña"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="w-full pl-4 pt-1 pb-1 shadow-sm shadow-cyan-200 rounded-2xl focus:shadow-md"
+          />
+        </div>
 
         <button
           type="submit"
-          className="w-full bg-cyan-500/75 text-white py-2 rounded-2xl mb-4 hover:bg-cyan-300/75 hover:shadow-md hover:shadow-cyan-200 hover:cursor-pointer"
+          className="w-25 bg-cyan-500/75 text-white py-2 rounded-2xl mb-4 hover:bg-cyan-300/75 hover:shadow-md hover:shadow-cyan-200 hover:cursor-pointer"
         >
           Entrar
         </button>
-        <a href='/register'>Crear cuenta</a>
+        <a className='text-cyan-400 hover:text-cyan-200' href='/register'>Crear cuenta</a>
       </form>
     </main>
   )
