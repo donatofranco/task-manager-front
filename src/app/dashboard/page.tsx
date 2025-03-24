@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { fetchTasks, addTask, deleteTask } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import { Task } from '@/types';
+import { Trash2, Plus } from 'lucide-react';
 
 export default function DashboardPage() {
   const { isAuthenticated } = useAuth();
@@ -63,7 +64,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-4 text-center h-screen w-screen">
       <h1 className="text-3xl mb-4">Dashboard</h1>
       {error && <p className="text-red-500">{error}</p>}
 
@@ -73,31 +74,37 @@ export default function DashboardPage() {
           placeholder="Título de la tarea"
           value={newTaskTitle}
           onChange={(e) => setNewTaskTitle(e.target.value)}
-          className="p-2 border rounded w-full mb-4"
+          className="p-2 rounded-2xl w-full mb-4 shadow-sm shadow-cyan-200"
           required
         />
         <textarea
           placeholder="Descripción de la tarea"
           value={newTaskDescription}
           onChange={(e) => setNewTaskDescription(e.target.value)}
-          className="p-2 border rounded w-full mb-4"
+          className="p-2 rounded-2xl w-full mb-4 shadow-sm shadow-cyan-200"
           required
         />
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded w-full">
-          Agregar tarea
+        <button type="submit" className="group relative bg-cyan-500/75 text-white p-2 rounded-4xl text-center transition-all duration-300 hover:scale-120 hover:bg-cyan-300/75 hover:shadow-md hover:shadow-cyan-200 hover:cursor-pointer">
+          <Plus />
+          <span className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 px-2 py-1 bg-gray-800 text-white text-sm rounded scale-80 translate-y-3">
+            Agregar tarea
+          </span>
         </button>
       </form>
 
       <ul className="space-y-4">
         {tasks.map((task: Task) => (
-          <li key={task.id} className="p-4 border rounded">
+          <li key={task.id} className="p-4 rounded-2xl shadow-sm shadow-cyan-200">
             <h3 className="text-lg">{task.title}</h3>
             <p>{task.description}</p>
             <button
               onClick={() => handleDeleteTask(task.id)}
-              className="text-red-500 mt-2"
+              className="group relative text-red-500 mt-2"
             >
-              Eliminar
+              {/* Sombra */}
+              <Trash2 className="absolute text-red-600 opacity-0 filter transition-all duration-300 group-hover:opacity-100 group-hover:blur-[4px] group-hover:scale-120" />
+              {/* Ícono Principal */}
+              <Trash2 className="relative text-red-600 transition-all duration-300 group-hover:scale-120 group-hover:cursor-pointer" />
             </button>
           </li>
         ))}

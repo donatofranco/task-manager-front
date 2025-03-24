@@ -34,7 +34,7 @@ export default function LoginPage() {
     <main className="flex justify-center items-center h-screen text-center">
       <form
         onSubmit={handleSubmit}
-        className="bg-black p-6 rounded shadow-md w-96"
+        className="bg-black-400/20 p-6 rounded-2xl shadow-lg shadow-cyan-200 w-90"
       >
         <h2 className="text-2xl mb-4">Iniciar Sesión</h2>
         {error && <p className="text-red-500 mb-2">{error}</p>}
@@ -45,7 +45,7 @@ export default function LoginPage() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="w-full mb-4 p-2 border border-gray-300 rounded"
+          className="w-full mb-4 p-2 shadow-sm shadow-cyan-200 rounded-2xl focus:shadow-md"
         />
 
         <input
@@ -54,12 +54,12 @@ export default function LoginPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          className="w-full mb-4 p-2 border border-gray-300 rounded"
+          className="w-full mb-4 p-2 shadow-sm shadow-cyan-200 rounded-2xl focus:shadow-md"
         />
 
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 mb-4"
+          className="w-full bg-cyan-500/75 text-white py-2 rounded-2xl mb-4 hover:bg-cyan-300/75 hover:shadow-md hover:shadow-cyan-200 hover:cursor-pointer"
         >
           Entrar
         </button>

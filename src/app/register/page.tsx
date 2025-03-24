@@ -43,7 +43,7 @@ export default function RegisterPage() {
     <div className="flex justify-center items-center h-screen text-center">
       <form
         onSubmit={handleSubmit}
-        className="bg-black p-6 rounded shadow-md w-96"
+        className="bg-black p-6 rounded-2xl shadow-lg shadow-cyan-200 w-90"
       >
         <h2 className="text-2xl mb-4">Registrar Cuenta</h2>
         {error && <p className="text-red-500 mb-2">{error}</p>}
@@ -54,7 +54,7 @@ export default function RegisterPage() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="w-full mb-4 p-2 border border-gray-300 rounded"
+          className="w-full mb-4 p-2 shadow-sm shadow-cyan-200 rounded-2xl focus:shadow-md"
         />
 
         <input
@@ -63,7 +63,7 @@ export default function RegisterPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          className="w-full mb-4 p-2 border border-gray-300 rounded"
+          className="w-full mb-4 p-2 shadow-sm shadow-cyan-200 rounded-2xl focus:shadow-md"
         />
 
         <input
@@ -72,13 +72,13 @@ export default function RegisterPage() {
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
-          className="w-full mb-4 p-2 border border-gray-300 rounded"
+          className="w-full mb-4 p-2 shadow-sm shadow-cyan-200 rounded-2xl focus:shadow-md"
         />
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+          className="w-full bg-cyan-500/75 text-white py-2 rounded-2xl hover:bg-cyan-300/75 hover:shadow-md hover:shadow-cyan-200 hover:cursor-pointer"
         >
           {loading ? 'Registrando...' : 'Registrar'}
         </button>
