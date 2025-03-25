@@ -64,11 +64,11 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="p-4 text-center h-screen w-screen">
-      <h1 className="text-3xl mb-4">Dashboard</h1>
+    <main className="p-4 text-center flex flex-col self-center items-center h-[90vh]">
+      <h1 className="text-3xl mb-4 text-cyan-400">Dashboard</h1>
       {error && <p className="text-red-500">{error}</p>}
 
-      <form onSubmit={handleAddTask} className="mb-6">
+      <form onSubmit={handleAddTask} className="mb-6 w-8/12">
         <input
           type="text"
           placeholder="Título de la tarea"
@@ -92,11 +92,11 @@ export default function DashboardPage() {
         </button>
       </form>
 
-      <ul className="space-y-4">
+      <ul className="p-5 space-y-4 w-8/12 overflow-y-scroll">
         {tasks.map((task: Task) => (
           <li key={task.id} className="p-4 rounded-2xl shadow-sm shadow-cyan-200">
-            <h3 className="text-lg">{task.title}</h3>
-            <p>{task.description}</p>
+            <h2 className="text-2xl text-cyan-400 underline"><strong>{task.title}</strong></h2>
+            <p className='break-words text-cyan-200'>{task.description}</p>
             <button
               onClick={() => handleDeleteTask(task.id)}
               className="group relative text-red-500 mt-2"
@@ -109,6 +109,6 @@ export default function DashboardPage() {
           </li>
         ))}
       </ul>
-    </div>
+    </main>
   );
 }

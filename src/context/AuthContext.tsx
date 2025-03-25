@@ -1,6 +1,7 @@
 'use client';
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { AuthContextType } from '@/types';
+import Loading from '@/app/components/loading/page';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -32,7 +33,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
-      {!loading ? children : <div>Loading...</div>} {/* Mostramos Loading mientras verificamos */}
+      {!loading ? children : <Loading></Loading>} {/* Mostramos Loading mientras verificamos */}
     </AuthContext.Provider>
   );
 };
