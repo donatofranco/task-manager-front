@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { loginUser } from '@/lib/api'
 import { useAuth } from '@/context/AuthContext'
 import { Mail, KeyRound } from 'lucide-react';
+import Link from 'next/link'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -70,7 +71,7 @@ export default function LoginPage() {
         >
           Entrar
         </button>
-        <a className='text-cyan-400 hover:text-cyan-200' href='/register'>Crear cuenta</a>
+        <Link className='text-cyan-400 hover:text-cyan-200' href='/register'>Crear cuenta</Link>
       </form>
     </main>
   )

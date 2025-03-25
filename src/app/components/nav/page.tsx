@@ -2,6 +2,7 @@
 import { PowerOff, Power } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function Nav() {
 
@@ -11,8 +12,8 @@ export default function Nav() {
     return (
         <nav className="h-[5vh] shadow-sm shadow-cyan-300/25 flex justify-around">
             <div className="p-3 flex w-full justify-start relative group">
-              <h1><strong className='absolute text-cyan-400 blur-[4px] hover:cursor-pointer'><a>Task Manger</a></strong></h1>
-              <h1><strong className='absolute text-cyan-400 hover:cursor-pointer'><a href='/'>Task Manger</a></strong></h1>
+              <h1><strong className='absolute text-cyan-400 blur-[4px] hover:cursor-pointer'><Link href='/'>Task Manger</Link></strong></h1>
+              <h1><strong className='absolute text-cyan-400 hover:cursor-pointer'><Link href='/'>Task Manger</Link></strong></h1>
             </div>
             {isAuthenticated ?
                 <button
