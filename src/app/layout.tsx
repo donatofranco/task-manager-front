@@ -31,7 +31,7 @@ export default function RootLayout({
         className="h-screen"
       >
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased h-100[dvh]`}
         >
           <AuthProvider>
             <Nav></Nav>
