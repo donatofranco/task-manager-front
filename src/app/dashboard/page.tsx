@@ -64,7 +64,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <main className="p-4 text-center flex flex-col self-center items-center h-[90vh]">
+    <main className="p-4 text-center flex flex-col self-center items-center h-[90dvh]">
       <h1 className="text-3xl mb-4 text-cyan-400">Dashboard</h1>
       {error && <p className="text-red-500">{error}</p>}
 

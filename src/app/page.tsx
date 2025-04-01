@@ -18,7 +18,7 @@ export default function Home() {
     });
 
   return (
-    <main className='h-[90vh]'>
+    <main className='h-[90dvh]'>
     </main>
   );
 }
