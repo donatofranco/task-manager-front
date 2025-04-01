@@ -41,10 +41,11 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="h-[90dvh] flex justify-center items-center text-center">
+    <main className="h-[90dvh] w-[100dvw] flex justify-center items-center align-middle self-center">
       <form
         onSubmit={handleSubmit}
-        className="bg-black p-6 rounded-2xl shadow-2xl shadow-cyan-900 w-[33dvw]"
+        className="flex flex-col self-center justify-center items-center bg-black p-6 rounded-md 
+                   shadow-2xl shadow-cyan-900 text-center"
       >
         <h2 className="text-2xl mb-4 text-cyan-400">Registrar Cuenta</h2>
         {error && <p className="text-red-500 mb-2">{error}</p>}
@@ -88,11 +89,12 @@ export default function RegisterPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-[25%] bg-cyan-500 text-white p-2 rounded-2xl hover:bg-cyan-700 hover:shadow-md hover:shadow-cyan-900 hover:cursor-pointer"
+          className="bg-cyan-500 text-white p-2 rounded-2xl hover:bg-cyan-700 
+                     hover:shadow-md hover:shadow-cyan-900 hover:cursor-pointer"
         >
           {loading ? 'Registrando...' : 'Registrar'}
         </button>
       </form>
-    </div>
+    </main>
   )
 }

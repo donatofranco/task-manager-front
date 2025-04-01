@@ -33,10 +33,10 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="h-[90dvh] flex justify-center items-center text-center align-middle">
+    <main className="h-[90dvh] w-[100dvw] flex justify-center items-center text-center align-middle">
       <form
         onSubmit={handleSubmit}
-        className=" bg-black p-5 rounded-md shadow-2xl shadow-cyan-900 w-[33dvw]"
+        className=" bg-black p-5 rounded-md shadow-2xl shadow-cyan-900"
       >
         <h2 className="text-2xl mb-4 text-cyan-400">Iniciar Sesión</h2>
         {error && <p className="text-red-500 mb-2">{error}</p>}
@@ -68,7 +68,7 @@ export default function LoginPage() {
         <div className="flex justify-center items-center self-center align-middle mb-4">
           <button
             type="submit"
-            className="w-[30%] bg-cyan-500 text-white p-2 rounded-2xl 
+            className="bg-cyan-500 text-white p-2 rounded-2xl 
                     hover:bg-cyan-700 hover:shadow-md hover:shadow-cyan-900 hover:cursor-pointer"
           >
             Entrar
