@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+
 export type Task = {
     id: number;
     title: string;
@@ -17,4 +18,4 @@ export type ModalProps = {
     isOpen: boolean;
     onClose: () => void;
     children: ReactNode;
-  }
+};
