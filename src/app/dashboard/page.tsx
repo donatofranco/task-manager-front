@@ -1,6 +1,6 @@
 'use client';
 import { useAuth } from '@/context/AuthContext';
-import { useState, useEffect, ReactNode } from 'react';
+import { useState, useEffect } from 'react';
 import { fetchTasks, addTask, deleteTask } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import { Task } from '@/types';
