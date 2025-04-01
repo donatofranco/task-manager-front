@@ -1,6 +1,6 @@
 import { ModalProps } from "@/types";
 
-export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
 
   return (
@@ -17,3 +17,5 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
     </div>
   );
 };
+
+export default Modal;
