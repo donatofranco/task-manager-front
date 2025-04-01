@@ -44,12 +44,12 @@ export default function RegisterPage() {
     <div className="h-[90dvh] flex justify-center items-center text-center">
       <form
         onSubmit={handleSubmit}
-        className="bg-black p-6 rounded-2xl shadow-lg shadow-cyan-200 w-90"
+        className="bg-black p-6 rounded-2xl shadow-2xl shadow-cyan-900 w-[33dvw]"
       >
         <h2 className="text-2xl mb-4 text-cyan-400">Registrar Cuenta</h2>
         {error && <p className="text-red-500 mb-2">{error}</p>}
 
-        <div className='flex justify-center items-center align-middle mb-4 w-80'>
+        <div className='flex justify-center items-center align-middle mb-4 pl-6 pr-6'>
           <Mail className='m-2 text-cyan-400' />
           <input
             type="email"
@@ -61,7 +61,7 @@ export default function RegisterPage() {
           />
         </div>
 
-        <div className='flex justify-center items-center align-middle mb-4 w-80'>
+        <div className='flex justify-center items-center align-middle mb-4 pl-6 pr-6'>
           <KeyRound className='m-2 text-cyan-400' />
           <input
             type="password"
@@ -73,7 +73,7 @@ export default function RegisterPage() {
           />
         </div>
 
-        <div className='flex justify-center items-center align-middle mb-4 w-80'>
+        <div className='flex justify-center items-center align-middle mb-4 pl-6 pr-6'>
           <KeyRound className='m-2 text-cyan-400' />
           <input
             type="password"
@@ -88,7 +88,7 @@ export default function RegisterPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-25 bg-cyan-500/75 text-white py-2 rounded-2xl hover:bg-cyan-300/75 hover:shadow-md hover:shadow-cyan-200 hover:cursor-pointer"
+          className="w-[25%] bg-cyan-500 text-white p-2 rounded-2xl hover:bg-cyan-700 hover:shadow-md hover:shadow-cyan-900 hover:cursor-pointer"
         >
           {loading ? 'Registrando...' : 'Registrar'}
         </button>

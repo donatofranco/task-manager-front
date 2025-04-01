@@ -68,20 +68,20 @@ export default function DashboardPage() {
       <h1 className="text-3xl mb-4 text-cyan-400">Dashboard</h1>
       {error && <p className="text-red-500">{error}</p>}
 
-      <form onSubmit={handleAddTask} className="mb-6 w-8/12">
+      <form onSubmit={handleAddTask} className="p-5 mb-6 w-8/12 rounded-md shadow-xs shadow-cyan-200">
         <input
           type="text"
-          placeholder="Título de la tarea"
+          placeholder="Título nueva tarea"
           value={newTaskTitle}
           onChange={(e) => setNewTaskTitle(e.target.value)}
           className="p-2 rounded-2xl w-full mb-4 shadow-sm shadow-cyan-200"
           required
         />
         <textarea
-          placeholder="Descripción de la tarea"
+          placeholder="Descripción nueva tarea"
           value={newTaskDescription}
           onChange={(e) => setNewTaskDescription(e.target.value)}
-          className="p-2 rounded-2xl w-full mb-4 shadow-sm shadow-cyan-200"
+          className="p-2 rounded-2xl w-full mb-4 shadow-sm shadow-cyan-200 max-h-[20dvh] min-h-[5dvh]"
           required
         />
         <button type="submit" className="group relative bg-cyan-500/75 text-white p-2 rounded-4xl text-center transition-all duration-300 hover:scale-120 hover:bg-cyan-300/75 hover:shadow-md hover:shadow-cyan-200 hover:cursor-pointer">
@@ -92,7 +92,7 @@ export default function DashboardPage() {
         </button>
       </form>
 
-      <ul className="p-5 space-y-4 w-8/12 overflow-y-scroll">
+      <ul className="p-5 space-y-4 w-8/12 overflow-y-scroll rounded-md shadow-xs shadow-cyan-200 scrollbar-custom">
         {tasks.map((task: Task) => (
           <li key={task.id} className="p-4 rounded-2xl shadow-sm shadow-cyan-200">
             <h2 className="text-2xl text-cyan-400 underline"><strong>{task.title}</strong></h2>

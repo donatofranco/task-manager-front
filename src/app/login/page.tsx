@@ -36,12 +36,12 @@ export default function LoginPage() {
     <main className="h-[90dvh] flex justify-center items-center text-center align-middle">
       <form
         onSubmit={handleSubmit}
-        className="flex justify-center items-center text-center align-middle flex-col bg-black p-2 rounded-2xl shadow-lg shadow-cyan-200 w-90"
+        className=" bg-black p-5 rounded-md shadow-2xl shadow-cyan-900 w-[33dvw]"
       >
         <h2 className="text-2xl mb-4 text-cyan-400">Iniciar Sesión</h2>
         {error && <p className="text-red-500 mb-2">{error}</p>}
 
-        <div className='flex justify-center items-center align-middle mb-4 w-80'>
+        <div className='flex justify-center items-center align-middle mb-4 pl-6 pr-6'>
           <Mail className='m-2 text-cyan-400' />
           <input
             type="email"
@@ -53,7 +53,7 @@ export default function LoginPage() {
           />
         </div>
 
-        <div className='flex justify-center items-center align-middle mb-4 w-80'>
+        <div className='flex justify-center items-center align-middle mb-4 pl-6 pr-6'>
           <KeyRound className='m-2 text-cyan-400' />
           <input
             type="password"
@@ -65,13 +65,18 @@ export default function LoginPage() {
           />
         </div>
 
-        <button
-          type="submit"
-          className="w-25 bg-cyan-500/75 text-white py-2 rounded-2xl mb-4 hover:bg-cyan-300/75 hover:shadow-md hover:shadow-cyan-200 hover:cursor-pointer"
-        >
-          Entrar
-        </button>
-        <Link className='text-cyan-400 hover:text-cyan-200' href='/register'>Crear cuenta</Link>
+        <div className="flex justify-center items-center self-center align-middle mb-4">
+          <button
+            type="submit"
+            className="w-[30%] bg-cyan-500 text-white p-2 rounded-2xl 
+                    hover:bg-cyan-700 hover:shadow-md hover:shadow-cyan-900 hover:cursor-pointer"
+          >
+            Entrar
+          </button>
+        </div>
+        
+        <Link className="flex justify-center items-center align-middle text-cyan-400 
+                      hover:text-cyan-600" href="/register">Crear cuenta</Link>
       </form>
     </main>
   )
