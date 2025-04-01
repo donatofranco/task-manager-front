@@ -5,7 +5,7 @@ import { fetchTasks, addTask, deleteTask } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import { Task } from '@/types';
 import { Trash2, Plus, Check, X } from 'lucide-react';
-import Modal from '../components/modal/page';
+import Modal from '@/components/Modal';
 
 export default function DashboardPage() {
   const { isAuthenticated } = useAuth();
