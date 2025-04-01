@@ -36,7 +36,7 @@ export default function LoginPage() {
     <main className="h-[90dvh] w-[100dvw] flex justify-center items-center text-center align-middle">
       <form
         onSubmit={handleSubmit}
-        className=" bg-black p-5 rounded-md shadow-2xl shadow-cyan-900"
+        className="w-[90dvw] md:w-[50dvw] xl:w-[30dvw] bg-black p-5 rounded-md shadow-2xl shadow-cyan-900"
       >
         <h2 className="text-2xl mb-4 text-cyan-400">Iniciar Sesión</h2>
         {error && <p className="text-red-500 mb-2">{error}</p>}

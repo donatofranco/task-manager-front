@@ -68,7 +68,7 @@ export default function DashboardPage() {
       <h1 className="text-3xl mb-4 text-cyan-400">Dashboard</h1>
       {error && <p className="text-red-500">{error}</p>}
 
-      <form onSubmit={handleAddTask} className="p-5 mb-6 w-8/12 rounded-md shadow-xs shadow-cyan-200">
+      <form onSubmit={handleAddTask} className="w-[95dvw] lg:max-w-[40dvw] p-5 mb-6 rounded-md shadow-xs shadow-cyan-200 ">
         <input
           type="text"
           placeholder="Título nueva tarea"
@@ -92,7 +92,7 @@ export default function DashboardPage() {
         </button>
       </form>
 
-      <ul className="p-5 space-y-4 w-8/12 overflow-y-scroll rounded-md shadow-xs shadow-cyan-200 scrollbar-custom">
+      <ul className="w-[95dvw] lg:max-w-[40dvw] p-5 space-y-4 overflow-y-scroll rounded-md shadow-xs shadow-cyan-200 scrollbar-custom">
         {tasks.map((task: Task) => (
           <li key={task.id} className="p-4 rounded-2xl shadow-sm shadow-cyan-200">
             <h2 className="text-2xl text-cyan-400 underline"><strong>{task.title}</strong></h2>
