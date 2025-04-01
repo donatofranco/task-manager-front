@@ -1,5 +1,3 @@
-import { ReactNode } from "react";
-
 export type Task = {
     id: number;
     title: string;
@@ -11,11 +9,4 @@ export type AuthContextType = {
     isAuthenticated: boolean;
     login: (token: string) => void;
     logout: () => void;
-};
-
-
-export type ModalProps = {
-    isOpen: boolean;
-    onClose: () => void;
-    children: ReactNode;
 };
