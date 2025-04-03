@@ -69,3 +69,10 @@ export const deleteTask = async (id: number): Promise<void> => {
     method: 'DELETE',
   });
 };
+
+export const updateTask = async (id: number, title: string, description: string, completed: boolean): Promise<void> => {
+  return await fetchWithAuth(`${API_URL}/tasks/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify({ title, description, completed }),
+  });
+};

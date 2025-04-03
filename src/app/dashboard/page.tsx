@@ -1,10 +1,10 @@
 'use client';
 import { useAuth } from '@/context/AuthContext';
 import { useState, useEffect } from 'react';
-import { fetchTasks, addTask, deleteTask } from '@/lib/api';
+import { fetchTasks, addTask, deleteTask, updateTask } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import { Task } from '@/types';
-import { Trash2, Plus, Check, X } from 'lucide-react';
+import { Trash2, Plus, Check, X, Pencil } from 'lucide-react';
 import Modal from '@/components/Modal';
 
 export default function DashboardPage() {
@@ -16,7 +16,10 @@ export default function DashboardPage() {
 
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [newTaskDescription, setNewTaskDescription] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
+  const [editTask, setEditTask] = useState<Task>({id: -1, title: '', description: '', completed: false});
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   // Verificamos si ya está autenticado antes de cargar los datos
   useEffect(() => {
@@ -28,7 +31,10 @@ export default function DashboardPage() {
     const fetchData = async () => {
       try {
         const tasksData = await fetchTasks();
-        setTasks(tasksData);
+        setTasks(tasksData
+          .sort((a: Task,b: Task) => {
+            return  a.id - b.id;
+        }));
       } catch (error: any) {
         setError(error.message);
       } finally {
@@ -51,7 +57,7 @@ export default function DashboardPage() {
       setTasks([...tasks, newTask]);
       setNewTaskTitle('');
       setNewTaskDescription('');
-      setIsModalOpen(false);
+      setIsCreateModalOpen(false);
     } catch (error: any) {
       console.error(error.message);
     }
@@ -66,10 +72,36 @@ export default function DashboardPage() {
     }
   };
 
+  const handleCompleteTask = async (task: Task) => {
+    try {
+      await updateTask(task.id, task.title, task.description, !task.completed);
+      setTasks(tasks.map(t => 
+        t.id === task.id ? { ...t, completed: !t.completed } : t
+      ));
+    } catch (error: any) {
+      console.error(error.message);
+    }
+  };
+
+  const handleUpdateTask = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (editTask.id === -1) return;
+    try {
+      await updateTask(editTask.id, editTask.title, editTask.description, editTask.completed);
+      setTasks(tasks.map(t => 
+        t.id === editTask.id ? editTask : t
+      ));
+      setEditTask({id: -1, title: '', description: '', completed: false});
+      setIsEditModalOpen(false);
+    } catch (error: any) {
+      console.error(error.message);
+    }
+  };
+
   return (
     <main className="p-4 text-center flex flex-col self-center items-center h-[90dvh]">
       {error && <p className="text-red-500">{error}</p>}
-      <button onClick={() => setIsModalOpen(true)}
+      <button onClick={() => setIsCreateModalOpen(true)}
       className="group relative bg-cyan-500/75 text-white p-2 mb-4
       rounded-4xl text-center transition-all duration-300 hover:scale-120 hover:bg-cyan-300/75 
       hover:shadow-md hover:shadow-cyan-200 hover:cursor-pointer">
@@ -80,7 +112,7 @@ export default function DashboardPage() {
         </span>
       </button>
 
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      <Modal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)}>
         <form onSubmit={handleAddTask} className=" lg:max-w-[40dvw] p-6 rounded-md 
         shadow-2xl shadow-cyan-900 bg-black">
           <p className='text-cyan-400 p-2 text-xl'>Agregar nueva tarea</p>
@@ -111,7 +143,53 @@ export default function DashboardPage() {
                 Agregar tarea
               </span>
             </button>
-            <button onClick={() => setIsModalOpen(false)} 
+            <button onClick={() => setIsCreateModalOpen(false)} 
+            className="p-4 mr-2 relative group hover:cursor-pointer">
+              <X className='absolute inset-0 w-full h-full text-red-600 filter transition-all 
+              duration-300 opacity-100 blur-[4px] group-hover:scale-150'/>
+              <X className='absolute inset-0 w-full h-full text-red-600 transition-all 
+              duration-300 group-hover:scale-150'/>
+              <span className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 px-2 py-1
+              bg-gray-800 text-white text-sm rounded scale-80 translate-y-3">
+                Cancelar
+              </span>
+            </button>
+          </div>
+        </form>
+      </Modal>
+
+      <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
+        <form onSubmit={handleUpdateTask} className=" lg:max-w-[40dvw] p-6 rounded-md 
+        shadow-2xl shadow-cyan-900 bg-black">
+          <p className='text-cyan-400 p-2 text-xl'>Editar tarea</p>
+          <input
+            type="text"
+            placeholder="Título"
+            value={editTask.title}
+            onChange={(e) => setEditTask({...editTask, title: e.target.value})}
+            className="p-2 rounded-2xl w-full mb-4 shadow-sm shadow-cyan-200"
+            required
+          />
+          <textarea
+            placeholder="Descripción"
+            value={editTask.description}
+            onChange={(e) => setEditTask({...editTask, description: e.target.value})}
+            className="p-2 rounded-2xl w-full mb-4 shadow-sm shadow-cyan-200 max-h-[20dvh] min-h-[5dvh]"
+            required
+          />
+          <div className='flex justify-evenly'>
+            <button type="submit" 
+            className="p-4 mr-2 relative group hover:cursor-pointer">
+              <Check className='absolute inset-0 w-full h-full text-green-600 filter transition-all 
+              duration-300 opacity-100 blur-[4px] group-hover:scale-150'/>
+              <Check className='absolute inset-0 w-full h-full text-green-600 transition-all 
+              duration-300 group-hover:scale-150'/>
+              <span className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 px-2 py-1
+              bg-gray-800 text-white text-sm rounded scale-80 translate-y-3">
+                Agregar tarea
+              </span>
+            </button>
+            <button onClick={() => setIsEditModalOpen(false)} 
             className="p-4 mr-2 relative group hover:cursor-pointer">
               <X className='absolute inset-0 w-full h-full text-red-600 filter transition-all 
               duration-300 opacity-100 blur-[4px] group-hover:scale-150'/>
@@ -132,17 +210,52 @@ export default function DashboardPage() {
           <li key={task.id} className="p-4 rounded-2xl shadow-sm shadow-cyan-200">
             <h2 className="text-2xl text-cyan-400 underline"><strong>{task.title}</strong></h2>
             <p className='break-words text-cyan-200'>{task.description}</p>
-            <button
-              onClick={() => handleDeleteTask(task.id)}
-              className="group relative text-red-500 mt-2"
-            >
-              {/* Sombra */}
-              <Trash2 className="absolute text-red-600 opacity-0 filter transition-all duration-300 
-              group-hover:opacity-100 group-hover:blur-[4px] group-hover:scale-120" />
-              {/* Ícono Principal */}
-              <Trash2 className="relative text-red-600 transition-all duration-300 group-hover:scale-120 
-              group-hover:cursor-pointer" />
-            </button>
+            <div>
+              <input type="checkbox" 
+                     id={'complete'+task.id} 
+                     name={'complete'+task.id} 
+                     checked={task.completed}
+                     onChange={() => handleCompleteTask(task)}
+              />
+              {
+                task.completed ? 
+                  <>
+                    <label htmlFor={'complete'+task.id}>Completa!</label>
+                  </>
+                :
+                  <>
+                    <label htmlFor={'complete'+task.id}>Incompleta...</label>
+                  </>
+              }
+            </div>
+            <div className='w-full flex justify-evenly'>
+              <button
+                onClick={() => handleDeleteTask(task.id)}
+                className="group relative text-red-500 mt-2"
+              >
+                {/* Sombra */}
+                <Trash2 className="absolute text-red-600 opacity-0 filter transition-all duration-300 
+                group-hover:opacity-100 group-hover:blur-[4px] group-hover:scale-120" />
+                {/* Ícono Principal */}
+                <Trash2 className="relative text-red-600 transition-all duration-300 group-hover:scale-120 
+                group-hover:cursor-pointer" />
+              </button>
+              <button
+                onClick={() => 
+                  {
+                    setEditTask(task);
+                    setIsEditModalOpen(true);
+                  }}
+                className="group relative text-cyan-500 mt-2"
+              >
+                {/* Sombra */}
+                <Pencil  className="absolute text-cyan-600 opacity-0 filter transition-all duration-300 
+                group-hover:opacity-100 group-hover:blur-[4px] group-hover:scale-120" />
+                {/* Ícono Principal */}
+                <Pencil  className="relative text-cyan-600 transition-all duration-300 group-hover:scale-120 
+                group-hover:cursor-pointer" />
+              </button>
+            </div>
           </li>
         ))}
       </ul>
