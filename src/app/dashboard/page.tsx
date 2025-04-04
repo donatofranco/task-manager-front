@@ -101,12 +101,12 @@ export default function DashboardPage() {
   return (
     <main className="p-4 text-center flex flex-col self-center items-center h-[90dvh]">
       {error && <p className="text-red-500">{error}</p>}
-      <div className='w-full h-[5dvh] flex justify-center items-center'>
+      <div className='w-full h-[5dvh] mb-4 flex justify-center items-center'>
         <button onClick={() => setIsCreateModalOpen(true)}
         className="relative group hover:cursor-pointer">
           <Plus className="w-10 h-10 absolute animate-pulse translate-x-[-50%] translate-y-[-50%] 
           text-green-600 filter transition-all duration-300 group-hover:opacity-100 
-          blur-[4px] scale-120 group-hover:scale-160" />
+          blur-[3px] scale-140 group-hover:scale-180" />
           <Plus className=" w-10 h-10 absolute translate-x-[-50%] translate-y-[-50%] text-green-600 
           opacity-100 filter transition-all duration-300 group-hover:scale-140" />
         </button>
