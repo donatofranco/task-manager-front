@@ -1,5 +1,5 @@
 'use client';
-import { PowerOff, Power } from 'lucide-react';
+import { LogOut, LogIn } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -20,10 +20,10 @@ export default function Nav() {
                     onClick={() => {logout(); router.push('/login');}}
                     className="p-4 mr-2 relative group"
                 >
-                    <Power className="absolute inset-0 w-full h-full text-green-600 filter transition-all duration-300 opacity-100 blur-[4px] group-hover:opacity-0"/>
-                    <Power className="absolute inset-0 w-full h-full text-green-600 transition-opacity duration-300 group-hover:opacity-0"/>
-                    <PowerOff className="absolute inset-0 w-full h-full text-red-600 opacity-0 filter transition-all duration-300 group-hover:opacity-100 group-hover:blur-[4px]" />
-                    <PowerOff className="absolute inset-0 w-full h-full text-red-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-hover:cursor-pointer"/>
+                    <LogIn className="absolute inset-0 w-full h-full text-cyan-600 filter transition-all duration-1000 opacity-100 blur-[4px] group-hover:opacity-0"/>
+                    <LogIn className="absolute inset-0 w-full h-full text-cyan-600 transition-all duration-1000 group-hover:opacity-0"/>
+                    <LogOut className="absolute inset-0 w-full h-full text-red-600 opacity-0 filter transition-all duration-1000 group-hover:opacity-100 group-hover:blur-[4px]" />
+                    <LogOut className="absolute inset-0 w-full h-full text-red-600 opacity-0 transition-all duration-1000 group-hover:opacity-100 group-hover:cursor-pointer"/>
                 </button>
             :
                 <></>

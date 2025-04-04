@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { fetchTasks, addTask, deleteTask, updateTask } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import { Task } from '@/types';
-import { Trash2, Plus, Check, X, Pencil } from 'lucide-react';
+import { Trash2, Plus, Check, X, Pencil, Square, SquareCheckBig } from 'lucide-react';
 import Modal from '@/components/Modal';
 
 export default function DashboardPage() {
@@ -101,17 +101,17 @@ export default function DashboardPage() {
   return (
     <main className="p-4 text-center flex flex-col self-center items-center h-[90dvh]">
       {error && <p className="text-red-500">{error}</p>}
-      <button onClick={() => setIsCreateModalOpen(true)}
-      className="group relative bg-cyan-500/75 text-white p-2 mb-4
-      rounded-4xl text-center transition-all duration-300 hover:scale-120 hover:bg-cyan-300/75 
-      hover:shadow-md hover:shadow-cyan-200 hover:cursor-pointer">
-        <Plus />
-        <span className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 px-2 py-1
-          bg-gray-800 text-white text-sm rounded scale-80 translate-y-3">
-          Agregar tarea
-        </span>
-      </button>
-
+      <div className='w-full h-[5dvh] flex justify-center items-center'>
+        <button onClick={() => setIsCreateModalOpen(true)}
+        className="relative group hover:cursor-pointer">
+          <Plus className="w-10 h-10 absolute animate-pulse translate-x-[-50%] translate-y-[-50%] 
+          text-green-600 filter transition-all duration-300 group-hover:opacity-100 
+          blur-[4px] scale-120 group-hover:scale-160" />
+          <Plus className=" w-10 h-10 absolute translate-x-[-50%] translate-y-[-50%] text-green-600 
+          opacity-100 filter transition-all duration-300 group-hover:scale-140" />
+        </button>
+      </div>
+      
       <Modal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)}>
         <form onSubmit={handleAddTask} className=" lg:max-w-[40dvw] p-6 rounded-md 
         shadow-2xl shadow-cyan-900 bg-black">
@@ -204,61 +204,82 @@ export default function DashboardPage() {
         </form>
       </Modal>
 
-      <ul className="w-[95dvw] lg:max-w-[40dvw] p-5 space-y-4 overflow-y-scroll rounded-md shadow-xs 
-      shadow-cyan-200 scrollbar-custom">
-        {tasks.map((task: Task) => (
-          <li key={task.id} className="p-4 rounded-2xl shadow-sm shadow-cyan-200">
-            <h2 className="text-2xl text-cyan-400 underline"><strong>{task.title}</strong></h2>
-            <p className='break-words text-cyan-200'>{task.description}</p>
-            <div>
-              <input type="checkbox" 
-                     id={'complete'+task.id} 
-                     name={'complete'+task.id} 
-                     checked={task.completed}
-                     onChange={() => handleCompleteTask(task)}
-              />
-              {
-                task.completed ? 
-                  <>
-                    <label htmlFor={'complete'+task.id}>Completa!</label>
-                  </>
-                :
-                  <>
-                    <label htmlFor={'complete'+task.id}>Incompleta...</label>
-                  </>
-              }
-            </div>
-            <div className='w-full flex justify-evenly'>
-              <button
-                onClick={() => handleDeleteTask(task.id)}
-                className="group relative text-red-500 mt-2"
-              >
-                {/* Sombra */}
-                <Trash2 className="absolute text-red-600 opacity-0 filter transition-all duration-300 
-                group-hover:opacity-100 group-hover:blur-[4px] group-hover:scale-120" />
-                {/* Ícono Principal */}
-                <Trash2 className="relative text-red-600 transition-all duration-300 group-hover:scale-120 
-                group-hover:cursor-pointer" />
-              </button>
-              <button
-                onClick={() => 
-                  {
-                    setEditTask(task);
-                    setIsEditModalOpen(true);
-                  }}
-                className="group relative text-cyan-500 mt-2"
-              >
-                {/* Sombra */}
-                <Pencil  className="absolute text-cyan-600 opacity-0 filter transition-all duration-300 
-                group-hover:opacity-100 group-hover:blur-[4px] group-hover:scale-120" />
-                {/* Ícono Principal */}
-                <Pencil  className="relative text-cyan-600 transition-all duration-300 group-hover:scale-120 
-                group-hover:cursor-pointer" />
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
+      {tasks.length>0?
+          <>
+            <ul className="w-[95dvw] lg:max-w-[40dvw] p-5 space-y-4 overflow-y-scroll rounded-md 
+            shadow-xs shadow-cyan-200 scrollbar-custom">
+              {tasks.map((task: Task) => (
+                <li key={task.id} className="p-4 rounded-2xl shadow-sm shadow-cyan-200">
+                  <h2 className="text-2xl text-cyan-400 underline"><strong>{task.title}</strong></h2>
+                  <p className='break-words text-cyan-200'>{task.description}</p>
+                  <div className='flex justify-center'>
+                    
+                  </div>
+                  <div className='p-6 w-full flex justify-evenly align-middle items-center'>
+                    <button
+                      onClick={() => handleDeleteTask(task.id)}
+                      className="group relative text-red-500 mt-2"
+                    >
+                      {/* Sombra */}
+                      <Trash2 className="absolute text-red-600 opacity-0 filter transition-all duration-300 
+                      group-hover:opacity-100 group-hover:blur-[4px] group-hover:scale-120" />
+                      {/* Ícono Principal */}
+                      <Trash2 className="relative text-red-600 transition-all duration-300 group-hover:scale-120 
+                      group-hover:cursor-pointer" />
+                    </button>
+                    <button
+                      onClick={() => 
+                        {
+                          setEditTask(task);
+                          setIsEditModalOpen(true);
+                        }}
+                      className="group relative text-cyan-500 mt-2"
+                    >
+                      {/* Sombra */}
+                      <Pencil  className="absolute text-cyan-600 opacity-0 filter transition-all duration-300 
+                      group-hover:opacity-100 group-hover:blur-[4px] group-hover:scale-120" />
+                      {/* Ícono Principal */}
+                      <Pencil  className="relative text-cyan-600 transition-all duration-300 group-hover:scale-120 
+                      group-hover:cursor-pointer" />
+                    </button>
+                    <button
+                      onClick={() => handleCompleteTask(task)}
+                      className="group relative text-cyan-500 mt-2"
+                    >
+                      {
+                        task.completed ?
+                          <>
+                            {/* Sombra */}
+                            <Square   className="absolute text-yellow-600 opacity-0 filter transition-all duration-300 
+                            group-hover:opacity-100 group-hover:blur-[4px] group-hover:scale-120" />
+                            <Square   className="absolute text-yellow-600 opacity-0 filter transition-all duration-300 
+                            group-hover:opacity-100 group-hover:scale-120" />
+                            {/* Ícono Principal */}
+                            <SquareCheckBig  className="relative text-green-600 transition-all duration-300 group-hover:scale-120 
+                            group-hover:cursor-pointer group-hover:opacity-0" />
+                          </>
+                        :
+                          <>
+                            {/* Sombra */}
+                            <SquareCheckBig   className="absolute text-green-600 opacity-0 filter transition-all duration-300 
+                            group-hover:opacity-100 group-hover:blur-[4px] group-hover:scale-120" />
+                            <SquareCheckBig   className="absolute text-green-600 opacity-0 filter transition-all duration-300 
+                            group-hover:opacity-100 group-hover:scale-120" />
+                            {/* Ícono Principal */}
+                            <Square  className="relative text-yellow-600 transition-all duration-300 group-hover:scale-120 
+                            group-hover:cursor-pointer group-hover:opacity-0" />
+                          </>
+                      }
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </>
+          :
+          <></>
+      }
+      
     </main>
   );
 }
