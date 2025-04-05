@@ -24,14 +24,16 @@ export default function Background() {
       const left = 50; // centro horizontal
       const top = 50;
 
+      const duration = 10 + Math.random() * 20;
+
       const angle = Math.random() * 2 * 360;
-      const speedX = 100 + (Math.random() * 360) * 50;
-      const speedY = 100 + (Math.random() * 360) * 50; // cuánto se mueve
+      const speedX = 100 + (Math.random() * 360) * (2 * duration);
+      const speedY = 100 + (Math.random() * 360) * (2 * duration); // cuánto se mueve
 
       const dx = Math.cos(angle) * speedX;
       const dy = Math.sin(angle) * speedY;
       
-      const duration = 10 + Math.random() * 20;
+      
       const twinkleDuration = 1 + Math.random() * 3;
 
       const id = idRef.current++;
@@ -42,8 +44,8 @@ export default function Background() {
       // Remove the star after its animation ends
       setTimeout(() => {
         setStars((prev) => prev.filter((star) => star.id !== id));
-      }, duration * 1000);
-    }, 1); // new star every 100ms
+      }, duration * 10000);
+    }, 50); // new star every 100ms
 
     return () => clearInterval(interval);
   }, []);
