@@ -20,15 +20,16 @@ export default function Background() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const size = Math.random() * 8 + 1;
+      for(let i = 0; i<=10; i++){
+        const size = Math.random() * 8 + 1;
       const left = 50; // centro horizontal
       const top = 50;
 
-      const duration = 10 + Math.random() * 20;
+      const duration = 10 + Math.random() * 1;
 
       const angle = Math.random() * 2 * 360;
-      const speedX = 100 + (Math.random() * 360) * (2 * duration);
-      const speedY = 100 + (Math.random() * 360) * (2 * duration); // cuánto se mueve
+      const speedX = 100 + (Math.random() * 360) * duration;
+      const speedY = 100 + (Math.random() * 360) * duration; // cuánto se mueve
 
       const dx = Math.cos(angle) * speedX;
       const dy = Math.sin(angle) * speedY;
@@ -44,8 +45,10 @@ export default function Background() {
       // Remove the star after its animation ends
       setTimeout(() => {
         setStars((prev) => prev.filter((star) => star.id !== id));
-      }, duration * 10000);
-    }, 50); // new star every 100ms
+      }, duration * 1000);
+      }
+      
+    }, 500); // new star every 100ms
 
     return () => clearInterval(interval);
   }, []);
