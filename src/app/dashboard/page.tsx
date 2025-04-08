@@ -101,8 +101,8 @@ export default function DashboardPage() {
   return (
     <main className="p-4 text-center flex flex-col self-center items-center h-[90dvh]">
       {error && <p className="text-red-500">{error}</p>}
-      <div className='sm:absolute md:static md:w-full h-[5dvh] mb-4 flex justify-center items-center sm:top-[85dvh] sm:left-[90dvw] 
-      sm:w-[5dvw]'>
+      <div className='absolute lg:static lg:w-full h-[5dvh] mb-4 flex justify-center items-center top-[85dvh] 
+      left-[90dvw] w-[5dvw]'>
         <button onClick={() => setIsCreateModalOpen(true)}
         className="relative group hover:cursor-pointer">
           <Plus className="w-10 h-10 absolute animate-pulse translate-x-[-50%] translate-y-[-50%] 
@@ -207,7 +207,7 @@ export default function DashboardPage() {
 
       {tasks.length>0?
           <>
-            <ul className="w-[95dvw] lg:max-w-[40dvw] p-5 space-y-4 overflow-y-scroll rounded-md 
+            <ul className="w-[95dvw] 2xl:max-w-[40dvw] p-5 space-y-4 overflow-y-scroll rounded-md 
             shadow-xs shadow-cyan-200 scrollbar-custom">
               {tasks.map((task: Task) => (
                 <li key={task.id} className="p-4 rounded-2xl shadow-sm shadow-cyan-200">
