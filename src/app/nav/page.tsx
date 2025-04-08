@@ -10,7 +10,7 @@ export default function Nav() {
     const router = useRouter();
 
     return (
-        <nav className="h-[5dvh] shadow-sm shadow-cyan-300/25 flex justify-around">
+        <nav className="backdrop-blur-xs h-[5dvh] shadow-sm shadow-cyan-300/25 flex justify-around">
             <div className="p-3 flex w-full justify-start relative group">
               <h1><strong className='absolute text-cyan-400 blur-[4px] hover:cursor-pointer'><Link href='/'>Task Manger</Link></strong></h1>
               <h1><strong className='absolute text-cyan-400 hover:cursor-pointer'><Link href='/'>Task Manger</Link></strong></h1>
