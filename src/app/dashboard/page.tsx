@@ -101,7 +101,8 @@ export default function DashboardPage() {
   return (
     <main className="p-4 text-center flex flex-col self-center items-center h-[90dvh]">
       {error && <p className="text-red-500">{error}</p>}
-      <div className='w-full h-[5dvh] mb-4 flex justify-center items-center'>
+      <div className='sm:absolute md:static md:w-full h-[5dvh] mb-4 flex justify-center items-center sm:top-[85dvh] sm:left-[90dvw] 
+      sm:w-[5dvw]'>
         <button onClick={() => setIsCreateModalOpen(true)}
         className="relative group hover:cursor-pointer">
           <Plus className="w-10 h-10 absolute animate-pulse translate-x-[-50%] translate-y-[-50%] 
