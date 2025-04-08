@@ -10,7 +10,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90">
+    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xs">
       <button
         className="absolute top-2 right-2 text-cyan-400 hover:text-cyan-200 hover:cursor-pointer"
         onClick={onClose}

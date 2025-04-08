@@ -44,7 +44,7 @@ export default function RegisterPage() {
     <main className="h-[90dvh] w-[100dvw] flex justify-center items-center align-middle self-center">
       <form
         onSubmit={handleSubmit}
-        className="w-[90dvw] md:w-[50dvw] xl:w-[30dvw] flex flex-col self-center justify-center items-center bg-black p-6 rounded-md 
+        className="w-[90dvw] md:w-[50dvw] xl:w-[30dvw] flex flex-col self-center justify-center items-center backdrop-blur-xs p-6 rounded-md 
                    shadow-2xl shadow-cyan-900 text-center"
       >
         <h2 className="text-2xl mb-4 text-cyan-400">Registrar Cuenta</h2>
