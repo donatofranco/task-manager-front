@@ -104,11 +104,11 @@ export default function DashboardPage() {
       <div className='absolute lg:static lg:w-full h-[5dvh] mt-2 flex justify-center items-center top-[85dvh] 
       left-[90dvw] w-[5dvw] z-10'>
         <button onClick={() => setIsCreateModalOpen(true)}
-        className="relative group hover:cursor-pointer">
-          <Plus className="w-10 h-10 absolute animate-pulse translate-x-[-50%] translate-y-[-50%] 
+        className="relative group hover:cursor-pointer border-2 border-red-600">
+          <Plus className="rounded-2xl w-10 h-10 absolute animate-pulse translate-x-[-50%] translate-y-[-50%] 
           text-green-600 filter transition-all duration-300 group-hover:opacity-100 
           blur-[3px] scale-140 group-hover:scale-180" />
-          <Plus className=" w-10 h-10 absolute translate-x-[-50%] translate-y-[-50%] text-green-600 
+          <Plus className="rounded-2xl backdrop-blur-xs w-10 h-10 absolute translate-x-[-50%] translate-y-[-50%] text-green-600 
           opacity-100 filter transition-all duration-300 group-hover:scale-140" />
         </button>
       </div>
@@ -207,7 +207,7 @@ export default function DashboardPage() {
 
       {tasks.length>0?
           <>
-            <ul className="w-[100dvw] 2xl:max-w-[40dvw] mt-2 p-1 space-y-4 overflow-y-scroll scrollbar-custom">
+            <ul className="w-[100dvw] 2xl:max-w-[40dvw] mt-2 p-2 space-y-4 overflow-y-scroll scrollbar-custom">
               {tasks.map((task: Task) => (
                 <li key={task.id} className="backdrop-blur-xs p-2 rounded-2xl shadow-xs shadow-cyan-200">
                   <h2 className="text-2xl text-cyan-400 underline"><strong>{task.title}</strong></h2>
