@@ -22,30 +22,30 @@ export default function Background() {
     const interval = setInterval(() => {
       for(let i = 0; i<=10; i++){
         const size = Math.random() * 8 + 1;
-      const left = 50; // centro horizontal
-      const top = 50;
+        const left = 50; // centro horizontal
+        const top = 50;
 
-      const duration = 10 + Math.random() * 1;
+        const duration = 10 + Math.random() * 1;
 
-      const angle = Math.random() * 2 * 360;
-      const speedX = 100 + (Math.random() * 360) * duration;
-      const speedY = 100 + (Math.random() * 360) * duration; // cuánto se mueve
+        const angle = Math.random() * 2 * 360;
+        const speedX = 100 + (Math.random() * 360) * duration;
+        const speedY = 100 + (Math.random() * 360) * duration; // cuánto se mueve
 
-      const dx = Math.cos(angle) * speedX;
-      const dy = Math.sin(angle) * speedY;
-      
-      
-      const twinkleDuration = 1 + Math.random() * 3;
+        const dx = Math.cos(angle) * speedX;
+        const dy = Math.sin(angle) * speedY;
+        
+        
+        const twinkleDuration = 1 + Math.random() * 3;
 
-      const id = idRef.current++;
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      const newStar: Star = { id, size, left, top, dx, dy, duration, twinkleDuration, color};
-      setStars((prev) => [...prev, newStar]);
+        const id = idRef.current++;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const newStar: Star = { id, size, left, top, dx, dy, duration, twinkleDuration, color};
+        setStars((prev) => [...prev, newStar]);
 
-      // Remove the star after its animation ends
-      setTimeout(() => {
-        setStars((prev) => prev.filter((star) => star.id !== id));
-      }, duration * 1000);
+        // Remove the star after its animation ends
+        setTimeout(() => {
+          setStars((prev) => prev.filter((star) => star.id !== id));
+        }, duration * 1000);
       }
       
     }, 500); // new star every 100ms
