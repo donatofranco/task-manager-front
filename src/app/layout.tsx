@@ -41,8 +41,8 @@ export default function RootLayout({
           <AuthProvider>
             <Nav></Nav>
             {children}
+            <Footer></Footer>
           </AuthProvider>
-          <Footer></Footer>
         </body>
     </html>
   );

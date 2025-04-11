@@ -1,6 +1,6 @@
 export default function Loading() {
     return (
-        <main className='h-[95dvh] w-[100vw] flex justify-center items-center'>
+        <main className='h-[90dvh] w-[100dvw] flex justify-center items-center'>
             <div className="relative text-center flex self-center justify-center items-center">
                 <h1>
                     <strong className="absolute translate-x-[-50%] translate-y-[-50%]
