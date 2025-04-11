@@ -45,10 +45,6 @@ export default function DashboardPage() {
     fetchData();
   }, [isAuthenticated, router]); // Dependemos de isAuthenticated para no hacer llamadas innecesarias
 
-  if (!isAuthenticated || loading) {
-    return <div>Loading...</div>;
-  }
-
   const handleAddTask = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!newTaskTitle || !newTaskDescription) return;
