@@ -207,7 +207,7 @@ export default function DashboardPage() {
 
       {tasks.length>0?
           <>
-            <ul className="w-[100dvw] 2xl:max-w-[40dvw] mt-2 p-2 space-y-8 overflow-y-scroll scrollbar-custom">
+            <ul className="w-[100dvw] lg:max-w-[60vw] 2xl:max-w-[40dvw] mt-2 p-2 space-y-8 overflow-y-scroll scrollbar-custom">
               {tasks.map((task: Task) => (
                 <li key={task.id} className="backdrop-blur-xs p-2 rounded-2xl shadow-xs shadow-cyan-200">
                   <h2 className="text-2xl text-cyan-400 underline"><strong>{task.title}</strong></h2>
