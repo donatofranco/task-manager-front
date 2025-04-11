@@ -6,11 +6,12 @@ import { useRouter } from 'next/navigation';
 import { Task } from '@/types';
 import { Trash2, Plus, Check, X, Pencil, Square, SquareCheckBig } from 'lucide-react';
 import Modal from '@/components/Modal';
+import Loading from '../loading/page';
 
 export default function DashboardPage() {
   const { isAuthenticated } = useAuth();
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const router = useRouter();
 
@@ -21,12 +22,16 @@ export default function DashboardPage() {
   const [editTask, setEditTask] = useState<Task>({id: -1, title: '', description: '', completed: false});
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  // Verificamos si ya está autenticado antes de cargar los datos
-  useEffect(() => {
+  async function validateAuth() {
     if (!isAuthenticated) {
       router.push('/login'); // Redirige al login si no está autenticado
       return;
     }
+  }
+
+  // Verificamos si ya está autenticado antes de cargar los datos
+  useEffect(() => {
+    validateAuth();
 
     const fetchData = async () => {
       try {
@@ -44,6 +49,12 @@ export default function DashboardPage() {
 
     fetchData();
   }, [isAuthenticated, router]); // Dependemos de isAuthenticated para no hacer llamadas innecesarias
+
+  validateAuth();
+
+  if (loading) {
+    return <Loading></Loading>;
+  }
 
   const handleAddTask = async (e: React.FormEvent) => {
     e.preventDefault()
