@@ -10,7 +10,7 @@ import Modal from '@/components/Modal';
 export default function DashboardPage() {
   const { isAuthenticated } = useAuth();
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [_, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
   const [error, setError] = useState('');
   const router = useRouter();
 
