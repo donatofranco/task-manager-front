@@ -20,22 +20,23 @@ export default function Background() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      for(let i = 0; i<=10; i++){
+      for(let i = 0; i<=5; i++){
         const size = Math.random() * 8 + 1;
         const left = 50; // centro horizontal
         const top = 50;
 
         const duration = 10 + Math.random() * 1;
 
-        const angle = Math.random() * 2 * 360;
-        const speedX = 100 + (Math.random() * 360) * duration;
-        const speedY = 100 + (Math.random() * 360) * duration; // cuánto se mueve
+        const angleX = Math.random() * 2 * 360;
+        const angleY = Math.random() * 2 * 360;
+        const speedX = ((Math.random() * 2) * 360) * 2;
+        const speedY = ((Math.random() * 2) * 360) / 2; // cuánto se mueve
 
-        const dx = Math.cos(angle) * speedX;
-        const dy = Math.sin(angle) * speedY;
+        const dx = Math.cos(angleX) * speedX;
+        const dy = Math.sin(angleY) * speedY;
         
         
-        const twinkleDuration = 1 + Math.random() * 3;
+        const twinkleDuration = 1 + Math.random() * 1;
 
         const id = idRef.current++;
         const color = colors[Math.floor(Math.random() * colors.length)];
@@ -48,7 +49,7 @@ export default function Background() {
         }, duration * 1000);
       }
       
-    }, 500); // new star every 100ms
+    }, 250); // new star every 100ms
 
     return () => clearInterval(interval);
   }, []);
