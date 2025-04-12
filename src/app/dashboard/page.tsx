@@ -1,6 +1,6 @@
 'use client';
 import { useAuth } from '@/context/AuthContext';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { fetchTasks, addTask, deleteTask, updateTask } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import { Task } from '@/types';
@@ -21,6 +21,8 @@ export default function DashboardPage() {
 
   const [editTask, setEditTask] = useState<Task>({id: -1, title: '', description: '', completed: false});
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  const descriptionRef = useRef<HTMLTextAreaElement>(null);
 
   async function validateAuth() {
     if (!isAuthenticated) {
@@ -48,7 +50,15 @@ export default function DashboardPage() {
     };
 
     fetchData();
-  }, [isAuthenticated, router]); // Dependemos de isAuthenticated para no hacer llamadas innecesarias
+
+    if (isEditModalOpen && descriptionRef.current) {
+      // Hacer focus y mover el cursor al final
+      const el = descriptionRef.current;
+      el.focus();
+      const length = el.value.length;
+      el.setSelectionRange(length, length);
+    }
+  }, [isAuthenticated, router, isEditModalOpen]); // Dependemos de isAuthenticated para no hacer llamadas innecesarias
 
   validateAuth();
 
@@ -260,6 +270,7 @@ export default function DashboardPage() {
                 onChange={(e) => setEditTask({...editTask, description: e.target.value})}
                 className="p-2 rounded-2xl w-full mb-4 shadow-sm shadow-cyan-200 max-h-[20dvh] min-h-[5dvh]"
                 required
+                ref={descriptionRef}
               />
               <div className='flex justify-evenly'>
                 <button type="submit" 
