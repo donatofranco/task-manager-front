@@ -101,7 +101,7 @@ export default function DashboardPage() {
     try {
       await updateTask(task.id, task.title, task.description, !task.completed);
       setTasks(tasks.map(t => 
-        t.id === task.id ? { ...t, completed: !t.completed } : t
+        t.id === task.id ? { ...t, completed: !t.completed, updatedAt: new Date() } : t
       ));
     } catch (error: any) {
       console.error(error.message);
