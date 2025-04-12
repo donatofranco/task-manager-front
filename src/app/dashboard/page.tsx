@@ -148,9 +148,9 @@ export default function DashboardPage() {
                     <h2 className="text-2xl text-cyan-400 underline"><strong>{task.title}</strong></h2>
                     <p className='break-words text-cyan-200 p-6'>{task.description}</p>
                     <div className='flex justify-center gap-4'>
-                      <p className='flex justify-center items-center gap-1 text-muted-foreground 
+                      <p className='flex justify-center items-center gap-0.5 text-muted-foreground 
                       text-cyan-200/50 text-xs'>
-                        <Calendar className='w-4 h-4'></Calendar>
+                        <Calendar className='w-3.5 h-3.5'></Calendar>
                         {new Date(task.createdAt).toLocaleDateString(navigator.language, {
                         day: '2-digit',
                         month: '2-digit',
@@ -159,9 +159,9 @@ export default function DashboardPage() {
                         minute: '2-digit',
                         hour12: false
                       })}</p>
-                      <p className='flex justify-center items-center gap-1 text-muted-foreground 
+                      <p className='flex justify-center items-center gap-0.5 text-muted-foreground 
                       text-cyan-200/50 text-xs'>
-                        <History className='w-4 h-4'></History>
+                        <History className='w-3.5 h-3.5'></History>
                         {new Date(task.updatedAt).toLocaleDateString(navigator.language, {
                         day: '2-digit',
                         month: '2-digit',
