@@ -107,186 +107,188 @@ export default function DashboardPage() {
 
   return (
     <main className="text-center flex flex-col self-center items-center h-[90dvh] w-[100dvw]">
-      {error && <p className="text-red-500">{error}</p>}
-      <div className='absolute lg:static lg:w-full h-[5dvh] mt-4 flex justify-center items-center top-[85dvh] 
-      left-[90dvw] w-[5dvw] z-10'>
-        <button onClick={() => setIsCreateModalOpen(true)}
-        className="relative group hover:cursor-pointer border-2 border-red-600">
-          <Plus className="rounded-2xl w-10 h-10 absolute animate-pulse translate-x-[-50%] translate-y-[-50%] 
-          text-green-600 filter transition-all duration-300 group-hover:opacity-100 backdrop-blur-sm
-          blur-[3px] scale-140 group-hover:scale-180" />
-          <Plus className="rounded-2xl w-10 h-10 absolute translate-x-[-50%] translate-y-[-50%] text-green-600 
-          opacity-100 filter transition-all duration-300 group-hover:scale-140" />
-        </button>
-      </div>
-      
-      <Modal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)}>
-        <form onSubmit={handleAddTask} className=" lg:max-w-[40dvw] p-6 rounded-md 
-        shadow-2xl shadow-cyan-900 bg-black">
-          <p className='text-cyan-400 p-2 text-xl'>Agregar nueva tarea</p>
-          <input
-            type="text"
-            placeholder="Título nueva tarea"
-            value={newTaskTitle}
-            onChange={(e) => setNewTaskTitle(e.target.value)}
-            className="p-2 rounded-2xl w-full mb-4 shadow-sm shadow-cyan-200"
-            required
-          />
-          <textarea
-            placeholder="Descripción nueva tarea"
-            value={newTaskDescription}
-            onChange={(e) => setNewTaskDescription(e.target.value)}
-            className="p-2 rounded-2xl w-full mb-4 shadow-sm shadow-cyan-200 max-h-[20dvh] min-h-[5dvh]"
-            required
-          />
-          <div className='flex justify-evenly'>
-            <button type="submit" 
-            className="p-4 mr-2 relative group hover:cursor-pointer">
-              <Check className='absolute inset-0 w-full h-full text-green-600 filter transition-all 
-              duration-300 opacity-100 blur-[4px] group-hover:scale-150'/>
-              <Check className='absolute inset-0 w-full h-full text-green-600 transition-all 
-              duration-300 group-hover:scale-150'/>
-              <span className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 px-2 py-1
-              bg-gray-800 text-white text-sm rounded scale-80 translate-y-3">
-                Agregar tarea
-              </span>
-            </button>
-            <button onClick={() => setIsCreateModalOpen(false)} 
-            className="p-4 mr-2 relative group hover:cursor-pointer">
-              <X className='absolute inset-0 w-full h-full text-red-600 filter transition-all 
-              duration-300 opacity-100 blur-[4px] group-hover:scale-150'/>
-              <X className='absolute inset-0 w-full h-full text-red-600 transition-all 
-              duration-300 group-hover:scale-150'/>
-              <span className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 px-2 py-1
-              bg-gray-800 text-white text-sm rounded scale-80 translate-y-3">
-                Cancelar
-              </span>
+      {!(isCreateModalOpen || isEditModalOpen) ?
+        <>
+          {error && <p className="text-red-500">{error}</p>}
+          <div className='absolute lg:static lg:w-full h-[5dvh] mt-4 flex justify-center items-center 
+          top-[85dvh] left-[90dvw] w-[5dvw] z-10'>
+            <button onClick={() => setIsCreateModalOpen(true)}
+            className="relative group hover:cursor-pointer border-2 border-red-600">
+              <Plus className="rounded-2xl w-10 h-10 absolute animate-pulse translate-x-[-50%] 
+              translate-y-[-50%] text-green-600 filter transition-all duration-300 group-hover:opacity-100 
+              backdrop-blur-sm blur-[3px] scale-140 group-hover:scale-180" />
+              <Plus className="rounded-2xl w-10 h-10 absolute translate-x-[-50%] translate-y-[-50%] 
+              text-green-600 opacity-100 filter transition-all duration-300 group-hover:scale-140" />
             </button>
           </div>
-        </form>
-      </Modal>
-
-      <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
-        <form onSubmit={handleUpdateTask} className=" lg:max-w-[40dvw] p-6 rounded-md 
-        shadow-2xl shadow-cyan-900 bg-black">
-          <p className='text-cyan-400 p-2 text-xl'>Editar tarea</p>
-          <input
-            type="text"
-            placeholder="Título"
-            value={editTask.title}
-            onChange={(e) => setEditTask({...editTask, title: e.target.value})}
-            className="p-2 rounded-2xl w-full mb-4 shadow-sm shadow-cyan-200"
-            required
-          />
-          <textarea
-            placeholder="Descripción"
-            value={editTask.description}
-            onChange={(e) => setEditTask({...editTask, description: e.target.value})}
-            className="p-2 rounded-2xl w-full mb-4 shadow-sm shadow-cyan-200 max-h-[20dvh] min-h-[5dvh]"
-            required
-          />
-          <div className='flex justify-evenly'>
-            <button type="submit" 
-            className="p-4 mr-2 relative group hover:cursor-pointer">
-              <Check className='absolute inset-0 w-full h-full text-green-600 filter transition-all 
-              duration-300 opacity-100 blur-[4px] group-hover:scale-150'/>
-              <Check className='absolute inset-0 w-full h-full text-green-600 transition-all 
-              duration-300 group-hover:scale-150'/>
-              <span className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 px-2 py-1
-              bg-gray-800 text-white text-sm rounded scale-80 translate-y-3">
-                Agregar tarea
-              </span>
-            </button>
-            <button onClick={() => setIsEditModalOpen(false)} 
-            className="p-4 mr-2 relative group hover:cursor-pointer">
-              <X className='absolute inset-0 w-full h-full text-red-600 filter transition-all 
-              duration-300 opacity-100 blur-[4px] group-hover:scale-150'/>
-              <X className='absolute inset-0 w-full h-full text-red-600 transition-all 
-              duration-300 group-hover:scale-150'/>
-              <span className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 px-2 py-1
-              bg-gray-800 text-white text-sm rounded scale-80 translate-y-3">
-                Cancelar
-              </span>
-            </button>
-          </div>
-        </form>
-      </Modal>
-
-      {tasks.length>0?
-          <>
-            <ul className="w-[100dvw] lg:max-w-[60vw] 2xl:max-w-[40dvw] mt-2 p-2 space-y-8 overflow-y-scroll scrollbar-custom">
-              {tasks.map((task: Task) => (
-                <li key={task.id} className="backdrop-blur-xs p-2 rounded-2xl shadow-xs shadow-cyan-200">
-                  <h2 className="text-2xl text-cyan-400 underline"><strong>{task.title}</strong></h2>
-                  <p className='break-words text-cyan-200'>{task.description}</p>
-                  <div className='flex justify-center'>
-                    
-                  </div>
-                  <div className='p-6 w-full flex justify-evenly align-middle items-center'>
-                    <button
-                      onClick={() => handleDeleteTask(task.id)}
-                      className="group relative text-red-500 mt-2"
-                    >
-                      {/* Sombra */}
-                      <Trash2 className="absolute text-red-600 opacity-0 filter transition-all duration-300 
-                      group-hover:opacity-100 group-hover:blur-[4px] group-hover:scale-120" />
-                      {/* Ícono Principal */}
-                      <Trash2 className="relative text-red-600 transition-all duration-300 group-hover:scale-120 
-                      group-hover:cursor-pointer" />
-                    </button>
-                    <button
-                      onClick={() => 
+          {tasks.length > 0 ?
+            <>
+              <ul className="w-[100dvw] lg:max-w-[60vw] 2xl:max-w-[40dvw] mt-2 p-2 space-y-8 overflow-y-scroll 
+              scrollbar-custom">
+                {tasks.map((task: Task) => (
+                  <li key={task.id} className="backdrop-blur-xs p-2 rounded-2xl shadow-xs shadow-cyan-200">
+                    <h2 className="text-2xl text-cyan-400 underline"><strong>{task.title}</strong></h2>
+                    <p className='break-words text-cyan-200'>{task.description}</p>
+                    <div className='p-6 w-full flex justify-evenly align-middle items-center'>
+                      <button
+                        onClick={() => handleDeleteTask(task.id)}
+                        className="group relative text-red-500 mt-2"
+                      >
+                        {/* Sombra */}
+                        <Trash2 className="absolute text-red-600 opacity-0 filter transition-all duration-300 
+                        group-hover:opacity-100 group-hover:blur-[4px] group-hover:scale-120" />
+                        {/* Ícono Principal */}
+                        <Trash2 className="relative text-red-600 transition-all duration-300 
+                        group-hover:scale-120 group-hover:cursor-pointer" />
+                      </button>
+                      <button
+                        onClick={() => 
+                          {
+                            setEditTask(task);
+                            setIsEditModalOpen(true);
+                          }}
+                        className="group relative text-cyan-500 mt-2"
+                      >
+                        {/* Sombra */}
+                        <Pencil  className="absolute text-cyan-600 opacity-0 filter transition-all 
+                        duration-300 group-hover:opacity-100 group-hover:blur-[4px] group-hover:scale-120" />
+                        {/* Ícono Principal */}
+                        <Pencil  className="relative text-cyan-600 transition-all duration-300 
+                        group-hover:scale-120 group-hover:cursor-pointer" />
+                      </button>
+                      <button
+                        onClick={() => handleCompleteTask(task)}
+                        className="group relative text-cyan-500 mt-2"
+                      >
                         {
-                          setEditTask(task);
-                          setIsEditModalOpen(true);
-                        }}
-                      className="group relative text-cyan-500 mt-2"
-                    >
-                      {/* Sombra */}
-                      <Pencil  className="absolute text-cyan-600 opacity-0 filter transition-all duration-300 
-                      group-hover:opacity-100 group-hover:blur-[4px] group-hover:scale-120" />
-                      {/* Ícono Principal */}
-                      <Pencil  className="relative text-cyan-600 transition-all duration-300 group-hover:scale-120 
-                      group-hover:cursor-pointer" />
-                    </button>
-                    <button
-                      onClick={() => handleCompleteTask(task)}
-                      className="group relative text-cyan-500 mt-2"
-                    >
-                      {
-                        task.completed ?
-                          <>
-                            {/* Sombra */}
-                            <Square   className="absolute text-yellow-600 opacity-0 filter transition-all duration-300 
-                            group-hover:opacity-100 group-hover:blur-[4px] group-hover:scale-120" />
-                            <Square   className="absolute text-yellow-600 opacity-0 filter transition-all duration-300 
-                            group-hover:opacity-100 group-hover:scale-120" />
-                            {/* Ícono Principal */}
-                            <SquareCheckBig  className="relative text-green-600 transition-all duration-300 group-hover:scale-120 
-                            group-hover:cursor-pointer group-hover:opacity-0" />
-                          </>
-                        :
-                          <>
-                            {/* Sombra */}
-                            <SquareCheckBig   className="absolute text-green-600 opacity-0 filter transition-all duration-300 
-                            group-hover:opacity-100 group-hover:blur-[4px] group-hover:scale-120" />
-                            <SquareCheckBig   className="absolute text-green-600 opacity-0 filter transition-all duration-300 
-                            group-hover:opacity-100 group-hover:scale-120" />
-                            {/* Ícono Principal */}
-                            <Square  className="relative text-yellow-600 transition-all duration-300 group-hover:scale-120 
-                            group-hover:cursor-pointer group-hover:opacity-0" />
-                          </>
-                      }
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </>
-          :
-          <></>
+                          task.completed ?
+                            <>
+                              {/* Sombra */}
+                              <Square   className="absolute text-yellow-600 opacity-0 filter transition-all 
+                              duration-300 group-hover:opacity-100 group-hover:blur-[4px] group-hover:scale-120" />
+                              <Square   className="absolute text-yellow-600 opacity-0 filter transition-all 
+                              duration-300 group-hover:opacity-100 group-hover:scale-120" />
+                              {/* Ícono Principal */}
+                              <SquareCheckBig  className="relative text-green-600 transition-all duration-300 
+                              group-hover:scale-120 group-hover:cursor-pointer group-hover:opacity-0" />
+                            </>
+                          :
+                            <>
+                              {/* Sombra */}
+                              <SquareCheckBig   className="absolute text-green-600 opacity-0 filter 
+                              transition-all duration-300 group-hover:opacity-100 group-hover:blur-[4px] 
+                              group-hover:scale-120" />
+                              <SquareCheckBig   className="absolute text-green-600 opacity-0 filter 
+                              transition-all duration-300 group-hover:opacity-100 group-hover:scale-120" />
+                              {/* Ícono Principal */}
+                              <Square  className="relative text-yellow-600 transition-all duration-300 
+                              group-hover:scale-120 group-hover:cursor-pointer group-hover:opacity-0" />
+                            </>
+                        }
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </>
+            :
+            <></>
+          }
+        </>
+        :
+        <>
+        <Modal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)}>
+            <form onSubmit={handleAddTask} className=" lg:max-w-[40dvw] p-5 rounded-md 
+            shadow-2xl shadow-cyan-900 backdrop-blur-xs">
+              <h2 className="text-2xl mb-4 text-cyan-400">Agregar nueva tarea</h2>
+              <input
+                type="text"
+                placeholder="Título nueva tarea"
+                value={newTaskTitle}
+                onChange={(e) => setNewTaskTitle(e.target.value)}
+                className="p-2 rounded-2xl w-full mb-4 shadow-sm shadow-cyan-200"
+                required
+              />
+              <textarea
+                placeholder="Descripción nueva tarea"
+                value={newTaskDescription}
+                onChange={(e) => setNewTaskDescription(e.target.value)}
+                className="p-2 rounded-2xl w-full mb-4 shadow-sm shadow-cyan-200 max-h-[20dvh] min-h-[5dvh]"
+                required
+              />
+              <div className='flex justify-evenly'>
+                <button type="submit" 
+                className="p-4 mr-2 relative group hover:cursor-pointer">
+                  <Check className='absolute inset-0 w-full h-full text-green-600 filter transition-all 
+                  duration-300 opacity-100 blur-[4px] group-hover:scale-150'/>
+                  <Check className='absolute inset-0 w-full h-full text-green-600 transition-all 
+                  duration-300 group-hover:scale-150'/>
+                  <span className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 px-2 py-1
+                  bg-gray-800 text-white text-sm rounded scale-80 translate-y-3">
+                    Agregar tarea
+                  </span>
+                </button>
+                <button onClick={() => setIsCreateModalOpen(false)} 
+                className="p-4 mr-2 relative group hover:cursor-pointer">
+                  <X className='absolute inset-0 w-full h-full text-red-600 filter transition-all 
+                  duration-300 opacity-100 blur-[4px] group-hover:scale-150'/>
+                  <X className='absolute inset-0 w-full h-full text-red-600 transition-all 
+                  duration-300 group-hover:scale-150'/>
+                  <span className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 px-2 py-1
+                  bg-gray-800 text-white text-sm rounded scale-80 translate-y-3">
+                    Cancelar
+                  </span>
+                </button>
+              </div>
+            </form>
+          </Modal>
+          <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
+            <form onSubmit={handleUpdateTask} className=" lg:max-w-[40dvw] p-5 rounded-md 
+            shadow-2xl shadow-cyan-900 backdrop-blur-xs">
+              <h2 className="text-2xl mb-4 text-cyan-400">Editar tarea</h2>
+              <input
+                type="text"
+                placeholder="Título"
+                value={editTask.title}
+                onChange={(e) => setEditTask({...editTask, title: e.target.value})}
+                className="p-2 rounded-2xl w-full mb-4 shadow-sm shadow-cyan-200"
+                required
+              />
+              <textarea
+                placeholder="Descripción"
+                value={editTask.description}
+                onChange={(e) => setEditTask({...editTask, description: e.target.value})}
+                className="p-2 rounded-2xl w-full mb-4 shadow-sm shadow-cyan-200 max-h-[20dvh] min-h-[5dvh]"
+                required
+              />
+              <div className='flex justify-evenly'>
+                <button type="submit" 
+                className="p-4 mr-2 relative group hover:cursor-pointer">
+                  <Check className='absolute inset-0 w-full h-full text-green-600 filter transition-all 
+                  duration-300 opacity-100 blur-[4px] group-hover:scale-150'/>
+                  <Check className='absolute inset-0 w-full h-full text-green-600 transition-all 
+                  duration-300 group-hover:scale-150'/>
+                  <span className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 px-2 py-1
+                  bg-gray-800 text-white text-sm rounded scale-80 translate-y-3">
+                    Agregar tarea
+                  </span>
+                </button>
+                <button onClick={() => setIsEditModalOpen(false)} 
+                className="p-4 mr-2 relative group hover:cursor-pointer">
+                  <X className='absolute inset-0 w-full h-full text-red-600 filter transition-all 
+                  duration-300 opacity-100 blur-[4px] group-hover:scale-150'/>
+                  <X className='absolute inset-0 w-full h-full text-red-600 transition-all 
+                  duration-300 group-hover:scale-150'/>
+                  <span className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 px-2 py-1
+                  bg-gray-800 text-white text-sm rounded scale-80 translate-y-3">
+                    Cancelar
+                  </span>
+                </button>
+              </div>
+            </form>
+          </Modal>
+        </>
       }
-      
     </main>
   );
 }
