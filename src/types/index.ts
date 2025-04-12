@@ -3,6 +3,8 @@ export type Task = {
     title: string;
     description: string;
     completed: boolean;
+    createdAt: Date;
+    updatedAt: Date;
 };
 
 export type AuthContextType = {

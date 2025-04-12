@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { fetchTasks, addTask, deleteTask, updateTask } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import { Task } from '@/types';
-import { Trash2, Plus, Check, X, Pencil, Square, SquareCheckBig } from 'lucide-react';
+import { Trash2, Plus, Check, X, Pencil, Square, SquareCheckBig, Calendar, History} from 'lucide-react';
 import Modal from '@/components/Modal';
 import Loading from '../loading/page';
 
@@ -19,7 +19,15 @@ export default function DashboardPage() {
   const [newTaskDescription, setNewTaskDescription] = useState('');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
-  const [editTask, setEditTask] = useState<Task>({id: -1, title: '', description: '', completed: false});
+  const [editTask, setEditTask] = useState<Task>({
+    id: -1, 
+    title: '', 
+    description: '', 
+    completed: false, 
+    createdAt: new Date(), 
+    updatedAt: new Date()
+  });
+
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
@@ -108,7 +116,7 @@ export default function DashboardPage() {
       setTasks(tasks.map(t => 
         t.id === editTask.id ? editTask : t
       ));
-      setEditTask({id: -1, title: '', description: '', completed: false});
+      setEditTask({id: -1, title: '', description: '', completed: false, createdAt: new Date(), updatedAt: new Date()});
       setIsEditModalOpen(false);
     } catch (error: any) {
       console.error(error.message);
@@ -138,8 +146,32 @@ export default function DashboardPage() {
                 {tasks.map((task: Task) => (
                   <li key={task.id} className="backdrop-blur-xs p-2 rounded-2xl shadow-xs shadow-cyan-200">
                     <h2 className="text-2xl text-cyan-400 underline"><strong>{task.title}</strong></h2>
-                    <p className='break-words text-cyan-200'>{task.description}</p>
-                    <div className='p-6 w-full flex justify-evenly align-middle items-center'>
+                    <p className='break-words text-cyan-200 p-6'>{task.description}</p>
+                    <div className='flex justify-center gap-4'>
+                      <p className='flex justify-center items-center gap-1 text-muted-foreground 
+                      text-cyan-200/50 text-xs'>
+                        <Calendar className='w-4 h-4'></Calendar>
+                        {new Date(task.createdAt).toLocaleDateString(navigator.language, {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: false
+                      })}</p>
+                      <p className='flex justify-center items-center gap-1 text-muted-foreground 
+                      text-cyan-200/50 text-xs'>
+                        <History className='w-4 h-4'></History>
+                        {new Date(task.updatedAt).toLocaleDateString(navigator.language, {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: false
+                      })}</p>
+                    </div>
+                    <div className='p-1 w-full flex justify-evenly align-middle items-center'>
                       <button
                         onClick={() => handleDeleteTask(task.id)}
                         className="group relative text-red-500 mt-2"
@@ -216,14 +248,16 @@ export default function DashboardPage() {
                 placeholder="Título nueva tarea"
                 value={newTaskTitle}
                 onChange={(e) => setNewTaskTitle(e.target.value)}
-                className="p-2 rounded-2xl w-full mb-4 shadow-sm shadow-cyan-200"
+                className="p-2 rounded-2xl w-full mb-4 shadow-sm shadow-cyan-200 text-center"
                 required
+                autoFocus
               />
               <textarea
                 placeholder="Descripción nueva tarea"
                 value={newTaskDescription}
                 onChange={(e) => setNewTaskDescription(e.target.value)}
-                className="p-2 rounded-2xl w-full mb-4 shadow-sm shadow-cyan-200 max-h-[20dvh] min-h-[5dvh]"
+                className="p-2 rounded-2xl w-full mb-4 shadow-sm shadow-cyan-200 max-h-[20dvh] 
+                min-h-[5dvh] text-center"
                 required
               />
               <div className='flex justify-evenly'>
