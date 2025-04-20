@@ -1,5 +1,5 @@
 import { fetchWithAuth } from './fetchWithAuth';
-import { Task } from '@/types';
+import { Task, Category } from '@/types';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api'
 
@@ -56,10 +56,10 @@ export const fetchTasks = async () => {
 };
 
 // Agregar una nueva tarea
-export const addTask = async (title: string, description: string): Promise<Task> => {
+export const addTask = async (title: string, description: string, categoryId?: number | null): Promise<Task> => {
   return await fetchWithAuth(`${API_URL}/tasks`, {
     method: 'POST',
-    body: JSON.stringify({ title, description }),
+    body: JSON.stringify({ title, description, categoryId }),
   });
 };
 
@@ -70,9 +70,37 @@ export const deleteTask = async (id: number): Promise<void> => {
   });
 };
 
-export const updateTask = async (id: number, title: string, description: string, completed: boolean): Promise<void> => {
+export const updateTask = async (id: number, title: string, description: string, completed: boolean, categoryId?: number | null): Promise<void> => {
   return await fetchWithAuth(`${API_URL}/tasks/${id}`, {
     method: 'PUT',
-    body: JSON.stringify({ title, description, completed }),
+    body: JSON.stringify({ title, description, completed, categoryId }),
+  });
+};
+
+// Obtener todas las categorías del usuario
+export const fetchCategories = async (): Promise<Category[]> => {
+  return await fetchWithAuth(`${API_URL}/categories`);
+};
+
+// Crear una nueva categoría
+export const addCategory = async (name: string, color: string): Promise<Category> => {
+  return await fetchWithAuth(`${API_URL}/categories`, {
+    method: 'POST',
+    body: JSON.stringify({ name, color }),
+  });
+};
+
+// Actualizar una categoría
+export const updateCategory = async (id: number, name: string, color: string): Promise<Category> => {
+  return await fetchWithAuth(`${API_URL}/categories/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify({ name, color }),
+  });
+};
+
+// Eliminar una categoría
+export const deleteCategory = async (id: number): Promise<void> => {
+  return await fetchWithAuth(`${API_URL}/categories/${id}`, {
+    method: 'DELETE',
   });
 };

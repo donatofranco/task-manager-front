@@ -5,6 +5,15 @@ export type Task = {
     completed: boolean;
     createdAt: Date;
     updatedAt: Date;
+    categoryId?: number | null;
+};
+
+export type Category = {
+    id: number;
+    name: string;
+    color: string;
+    createdAt: Date;
+    userId: number;
 };
 
 export type AuthContextType = {
