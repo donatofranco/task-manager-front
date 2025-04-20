@@ -301,7 +301,7 @@ export default function DashboardPage() {
         </>
         :
         <>
-        <Modal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)}>
+        <Modal isOpen={isCreateModalOpen && !isCreateCategoryModalOpen && !isEditCategoryModalOpen} onClose={() => setIsCreateModalOpen(false)}>
             <form onSubmit={handleAddTask} className=" lg:max-w-[40dvw] p-5 rounded-md 
             shadow-2xl shadow-cyan-900 backdrop-blur-xs">
               <h2 className="text-2xl mb-4 text-cyan-400">Agregar nueva tarea</h2>
@@ -376,7 +376,7 @@ export default function DashboardPage() {
               </div>
             </form>
           </Modal>
-          <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
+          <Modal isOpen={isEditModalOpen && !isCreateCategoryModalOpen && !isEditCategoryModalOpen} onClose={() => setIsEditModalOpen(false)}>
             <form onSubmit={handleUpdateTask} className=" lg:max-w-[40dvw] p-5 rounded-md 
             shadow-2xl shadow-cyan-900 backdrop-blur-xs">
               <h2 className="text-2xl mb-4 text-cyan-400">Editar tarea</h2>
