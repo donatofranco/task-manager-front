@@ -52,7 +52,7 @@ export default function Background() {
     }, 250); // new star every 100ms
 
     return () => clearInterval(interval);
-  }, []);
+  }, [colors]);
 
   return (
     <div className="starry-sky">
