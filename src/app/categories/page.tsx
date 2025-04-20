@@ -24,6 +24,9 @@ export default function CategoriesPage() {
   // Eliminar
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
+  // Nuevo estado para ocultar la lista al abrir modal
+  const [hideList, setHideList] = useState(false);
+
   useEffect(() => {
     fetchCategories()
       .then(data => setCategories(data))
@@ -39,6 +42,7 @@ export default function CategoriesPage() {
       setNewName('');
       setNewColor('#00d3f3');
       setIsCreateModalOpen(false);
+      setHideList(false);
     } catch (e: any) {
       setError(e.message);
     }
@@ -52,6 +56,7 @@ export default function CategoriesPage() {
       setCategories(categories.map(c => c.id === updated.id ? updated : c));
       setIsEditModalOpen(false);
       setEditCategory(null);
+      setHideList(false);
     } catch (e: any) {
       setError(e.message);
     }
@@ -62,41 +67,59 @@ export default function CategoriesPage() {
       await deleteCategory(id);
       setCategories(categories.filter(c => c.id !== id));
       setDeleteId(null);
+      setHideList(false);
     } catch (e: any) {
       setError(e.message);
     }
   };
 
+  const handleEditClick = (cat: Category) => {
+    setEditCategory(cat);
+    setEditName(cat.name);
+    setEditColor(cat.color);
+    setIsEditModalOpen(true);
+    setHideList(true);
+  };
+
+  const handleDeleteClick = (id: number) => {
+    setDeleteId(id);
+    setHideList(true);
+  };
+
   return (
     <main className="flex flex-col items-center justify-center min-h-[90dvh] w-full text-center">
-      <h2 className="text-2xl text-cyan-400 mb-4">Categorías</h2>
-      {error && <p className="text-red-500 mb-2">{error}</p>}
-      <button
-        onClick={() => setIsCreateModalOpen(true)}
-        className="mb-4 flex items-center gap-2 bg-cyan-500 text-white p-2 rounded-2xl hover:bg-cyan-700 hover:shadow-md hover:shadow-cyan-900 hover:cursor-pointer"
-      >
-        <Plus /> Nueva Categoría
-      </button>
-      <ul className="w-[90vw] md:w-[50vw] xl:w-[30vw] space-y-4">
-        {categories.map(cat => (
-          <li key={cat.id} className="flex items-center justify-between p-3 rounded-2xl shadow-sm shadow-cyan-200 backdrop-blur-xs">
-            <span className="flex items-center gap-2">
-              <span className="inline-block w-4 h-4 rounded-full" style={{ backgroundColor: cat.color }}></span>
-              <span className="text-cyan-200">{cat.name}</span>
-            </span>
-            <span className="flex gap-2">
-              <button onClick={() => { setEditCategory(cat); setEditName(cat.name); setEditColor(cat.color); setIsEditModalOpen(true); }} className="group relative">
-                <Pencil className="text-cyan-600 group-hover:scale-125 transition-all" />
-              </button>
-              <button onClick={() => setDeleteId(cat.id)} className="group relative">
-                <Trash2 className="text-red-600 group-hover:scale-125 transition-all" />
-              </button>
-            </span>
-          </li>
-        ))}
-      </ul>
+      {(!hideList) && (
+        <>
+          <h2 className="text-2xl text-cyan-400 mb-4">Categorías</h2>
+          {error && <p className="text-red-500 mb-2">{error}</p>}
+          <button
+            onClick={() => { setIsCreateModalOpen(true), setHideList(true); }}
+            className="mb-4 flex items-center gap-2 bg-cyan-500 text-white p-2 rounded-2xl hover:bg-cyan-700 hover:shadow-md hover:shadow-cyan-900 hover:cursor-pointer"
+          >
+            <Plus /> Nueva Categoría
+          </button>
+          <ul className="w-[90vw] md:w-[50vw] xl:w-[30vw] space-y-4">
+            {categories.map(cat => (
+              <li key={cat.id} className="flex items-center justify-between p-3 rounded-2xl shadow-sm shadow-cyan-200 backdrop-blur-xs">
+                <span className="flex items-center gap-2">
+                  <span className="inline-block w-4 h-4 rounded-full" style={{ backgroundColor: cat.color }}></span>
+                  <span className="text-cyan-200">{cat.name}</span>
+                </span>
+                <span className="flex gap-2">
+                  <button onClick={() => handleEditClick(cat)} className="group relative">
+                    <Pencil className="text-cyan-600 group-hover:scale-125 transition-all" />
+                  </button>
+                  <button onClick={() => handleDeleteClick(cat.id)} className="group relative">
+                    <Trash2 className="text-red-600 group-hover:scale-125 transition-all" />
+                  </button>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
       {/* Crear Modal */}
-      <Modal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)}>
+      <Modal isOpen={isCreateModalOpen} onClose={() => { setIsCreateModalOpen(false); setHideList(false); }}>
         <form onSubmit={handleCreate} className="p-5 rounded-md shadow-2xl shadow-cyan-900 backdrop-blur-xs">
           <h2 className="text-2xl mb-4 text-cyan-400">Nueva Categoría</h2>
           <input
@@ -119,7 +142,7 @@ export default function CategoriesPage() {
               <Check className="absolute inset-0 w-full h-full text-green-600 filter transition-all duration-300 opacity-100 blur-[4px] group-hover:scale-150" />
               <Check className="absolute inset-0 w-full h-full text-green-600 transition-all duration-300 group-hover:scale-150" />
             </button>
-            <button onClick={() => setIsCreateModalOpen(false)} type="button" className="p-4 mr-2 relative group hover:cursor-pointer">
+            <button onClick={() => { setIsCreateModalOpen(false); setHideList(false); }} type="button" className="p-4 mr-2 relative group hover:cursor-pointer">
               <X className="absolute inset-0 w-full h-full text-red-600 filter transition-all duration-300 opacity-100 blur-[4px] group-hover:scale-150" />
               <X className="absolute inset-0 w-full h-full text-red-600 transition-all duration-300 group-hover:scale-150" />
             </button>
@@ -127,7 +150,7 @@ export default function CategoriesPage() {
         </form>
       </Modal>
       {/* Editar Modal */}
-      <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
+      <Modal isOpen={isEditModalOpen} onClose={() => { setIsEditModalOpen(false); setHideList(false); }}>
         <form onSubmit={handleEdit} className="p-5 rounded-md shadow-2xl shadow-cyan-900 backdrop-blur-xs">
           <h2 className="text-2xl mb-4 text-cyan-400">Editar Categoría</h2>
           <input
@@ -150,7 +173,7 @@ export default function CategoriesPage() {
               <Check className="absolute inset-0 w-full h-full text-green-600 filter transition-all duration-300 opacity-100 blur-[4px] group-hover:scale-150" />
               <Check className="absolute inset-0 w-full h-full text-green-600 transition-all duration-300 group-hover:scale-150" />
             </button>
-            <button onClick={() => setIsEditModalOpen(false)} type="button" className="p-4 mr-2 relative group hover:cursor-pointer">
+            <button onClick={() => { setIsEditModalOpen(false); setHideList(false); }} type="button" className="p-4 mr-2 relative group hover:cursor-pointer">
               <X className="absolute inset-0 w-full h-full text-red-600 filter transition-all duration-300 opacity-100 blur-[4px] group-hover:scale-150" />
               <X className="absolute inset-0 w-full h-full text-red-600 transition-all duration-300 group-hover:scale-150" />
             </button>
@@ -158,7 +181,7 @@ export default function CategoriesPage() {
         </form>
       </Modal>
       {/* Eliminar confirmación */}
-      <Modal isOpen={deleteId !== null} onClose={() => setDeleteId(null)}>
+      <Modal isOpen={deleteId !== null} onClose={() => { setDeleteId(null); setHideList(false); }}>
         <div className="p-5 rounded-md shadow-2xl shadow-cyan-900 backdrop-blur-xs">
           <h2 className="text-xl mb-4 text-cyan-400">¿Eliminar esta categoría?</h2>
           <div className="flex justify-evenly">
@@ -166,7 +189,7 @@ export default function CategoriesPage() {
               <Trash2 className="absolute inset-0 w-full h-full text-red-600 filter transition-all duration-300 opacity-100 blur-[4px] group-hover:scale-150" />
               <Trash2 className="absolute inset-0 w-full h-full text-red-600 transition-all duration-300 group-hover:scale-150" />
             </button>
-            <button onClick={() => setDeleteId(null)} className="p-4 mr-2 relative group hover:cursor-pointer">
+            <button onClick={() => { setDeleteId(null); setHideList(false); }} className="p-4 mr-2 relative group hover:cursor-pointer">
               <X className="absolute inset-0 w-full h-full text-cyan-600 filter transition-all duration-300 opacity-100 blur-[4px] group-hover:scale-150" />
               <X className="absolute inset-0 w-full h-full text-cyan-600 transition-all duration-300 group-hover:scale-150" />
             </button>
