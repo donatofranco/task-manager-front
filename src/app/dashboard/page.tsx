@@ -357,10 +357,6 @@ export default function DashboardPage() {
                   duration-300 opacity-100 blur-[4px] group-hover:scale-150'/>
                   <Check className='absolute inset-0 w-full h-full text-green-600 transition-all 
                   duration-300 group-hover:scale-150'/>
-                  <span className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 px-2 py-1
-                  bg-gray-800 text-white text-sm rounded scale-80 translate-y-3">
-                    Agregar tarea
-                  </span>
                 </button>
                 <button onClick={() => setIsCreateModalOpen(false)} 
                 className="p-4 mr-2 relative group hover:cursor-pointer">
@@ -368,10 +364,6 @@ export default function DashboardPage() {
                   duration-300 opacity-100 blur-[4px] group-hover:scale-150'/>
                   <X className='absolute inset-0 w-full h-full text-red-600 transition-all 
                   duration-300 group-hover:scale-150'/>
-                  <span className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 px-2 py-1
-                  bg-gray-800 text-white text-sm rounded scale-80 translate-y-3">
-                    Cancelar
-                  </span>
                 </button>
               </div>
             </form>
@@ -431,10 +423,6 @@ export default function DashboardPage() {
                   duration-300 opacity-100 blur-[4px] group-hover:scale-150'/>
                   <Check className='absolute inset-0 w-full h-full text-green-600 transition-all 
                   duration-300 group-hover:scale-150'/>
-                  <span className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 px-2 py-1
-                  bg-gray-800 text-white text-sm rounded scale-80 translate-y-3">
-                    Agregar tarea
-                  </span>
                 </button>
                 <button onClick={() => setIsEditModalOpen(false)} 
                 className="p-4 mr-2 relative group hover:cursor-pointer">
@@ -442,10 +430,6 @@ export default function DashboardPage() {
                   duration-300 opacity-100 blur-[4px] group-hover:scale-150'/>
                   <X className='absolute inset-0 w-full h-full text-red-600 transition-all 
                   duration-300 group-hover:scale-150'/>
-                  <span className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 px-2 py-1
-                  bg-gray-800 text-white text-sm rounded scale-80 translate-y-3">
-                    Cancelar
-                  </span>
                 </button>
               </div>
             </form>
