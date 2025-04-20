@@ -89,7 +89,7 @@ export default function DashboardPage() {
       const length = el.value.length;
       el.setSelectionRange(length, length);
     }
-  }, [isAuthenticated, router, isEditModalOpen]); // Dependemos de isAuthenticated para no hacer llamadas innecesarias
+  }, [validateAuth, router, isEditModalOpen]); // Dependemos de isAuthenticated para no hacer llamadas innecesarias
 
   validateAuth();
 
