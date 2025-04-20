@@ -44,8 +44,8 @@ export default function DashboardPage() {
   const [editCategoryName, setEditCategoryName] = useState('');
   const [editCategoryColor, setEditCategoryColor] = useState('#00d3f3');
 
-  async function validateAuth() {
-    if (!isAuthenticated) {
+  async function validateAuth(auth: boolean) {
+    if (!auth) {
       router.push('/login'); // Redirige al login si no está autenticado
       return;
     }
@@ -53,7 +53,7 @@ export default function DashboardPage() {
 
   // Verificamos si ya está autenticado antes de cargar los datos
   useEffect(() => {
-    validateAuth();
+    validateAuth(isAuthenticated);
 
     const fetchData = async () => {
       try {
@@ -89,9 +89,9 @@ export default function DashboardPage() {
       const length = el.value.length;
       el.setSelectionRange(length, length);
     }
-  }, [validateAuth, router, isEditModalOpen]); // Dependemos de isAuthenticated para no hacer llamadas innecesarias
+  }, [isAuthenticated, router, isEditModalOpen]); // Dependemos de isAuthenticated para no hacer llamadas innecesarias
 
-  validateAuth();
+  validateAuth(isAuthenticated);
 
   if (loading) {
     return <Loading></Loading>;

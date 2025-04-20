@@ -16,9 +16,10 @@ interface Star {
 export default function Background() {
     const [stars, setStars] = useState<Star[]>([]);
     const idRef = useRef(0);
-    const colors = ['#ffffff', '#a0c4ff', '#bdb2ff', '#ffc6ff', '#caffbf', '#ffd6a5', '#9bf6ff'];
+    
 
   useEffect(() => {
+    const colors = ['#ffffff', '#a0c4ff', '#bdb2ff', '#ffc6ff', '#caffbf', '#ffd6a5', '#9bf6ff'];
     const interval = setInterval(() => {
       for(let i = 0; i<=5; i++){
         const size = Math.random() * 8 + 1;
@@ -52,7 +53,7 @@ export default function Background() {
     }, 250); // new star every 100ms
 
     return () => clearInterval(interval);
-  }, [colors]);
+  }, []);
 
   return (
     <div className="starry-sky">
