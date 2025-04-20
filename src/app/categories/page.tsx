@@ -93,7 +93,7 @@ export default function CategoriesPage() {
           <h2 className="text-2xl text-cyan-400 mb-4">Categorías</h2>
           {error && <p className="text-red-500 mb-2">{error}</p>}
           <button
-            onClick={() => { setIsCreateModalOpen(true), setHideList(true); }}
+            onClick={() => { setIsCreateModalOpen(true); setHideList(true); }}
             className="mb-4 flex items-center gap-2 bg-cyan-500 text-white p-2 rounded-2xl hover:bg-cyan-700 hover:shadow-md hover:shadow-cyan-900 hover:cursor-pointer"
           >
             <Plus /> Nueva Categoría
