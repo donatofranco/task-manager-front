@@ -191,11 +191,10 @@ export default function DashboardPage() {
   };
 
   // Componente SelectCategoria personalizado
-  function SelectCategoria({ value, onChange, categories, ...props }: {
+  function SelectCategoria({ value, onChange, categories }: {
     value: number | null;
     onChange: (id: number | null) => void;
     categories: Category[];
-    [key: string]: any;
   }) {
     const [open, setOpen] = useState(false);
     const selected = categories.find(c => c.id === value);
