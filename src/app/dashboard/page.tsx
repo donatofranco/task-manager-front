@@ -1,10 +1,10 @@
 'use client';
 import { useAuth } from '@/context/AuthContext';
 import { useState, useEffect, useRef } from 'react';
-import { fetchTasks, addTask, deleteTask, updateTask, fetchCategories, addCategory, updateCategory } from '@/lib/api';
+import { fetchTasks, addTask, deleteTask, updateTask, fetchCategories, addCategory, updateCategory, deleteCategory } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import { Task, Category } from '@/types';
-import { Trash2, Plus, Check, X, Pencil, Square, SquareCheckBig, Calendar, History} from 'lucide-react';
+import { Trash2, Plus, Check, X, Pencil, Square, SquareCheckBig, Calendar, History, ChevronDown, ChevronUp } from 'lucide-react';
 import Modal from '@/components/Modal';
 import Loading from '../loading/page';
 
@@ -43,6 +43,9 @@ export default function DashboardPage() {
   const [editCategoryId, setEditCategoryId] = useState<number | null>(null);
   const [editCategoryName, setEditCategoryName] = useState('');
   const [editCategoryColor, setEditCategoryColor] = useState('#00d3f3');
+
+  // Eliminar categoría desde dashboard
+  const [deleteCategoryId, setDeleteCategoryId] = useState<number | null>(null);
 
   async function validateAuth(auth: boolean) {
     if (!auth) {
@@ -176,6 +179,121 @@ export default function DashboardPage() {
     }
   };
 
+  // handleDeleteCategory debe eliminar la categoría y cerrar el modal
+  const handleDeleteCategory = async (id: number) => {
+    try {
+      await deleteCategory(id);
+      setCategories(categories.filter(c => c.id !== id));
+      setDeleteCategoryId(null);
+    } catch (e: any) {
+      setError(e.message);
+    }
+  };
+
+  // Componente SelectCategoria personalizado
+  function SelectCategoria({ value, onChange, categories, ...props }: {
+    value: number | null;
+    onChange: (id: number | null) => void;
+    categories: Category[];
+    [key: string]: any;
+  }) {
+    const [open, setOpen] = useState(false);
+    const selected = categories.find(c => c.id === value);
+  
+    // Acciones para editar/eliminar desde el select
+    const handleEdit = (e: React.MouseEvent) => {
+      e.stopPropagation();
+      if (selected) {
+        setEditCategoryId(selected.id);
+        setEditCategoryName(selected.name);
+        setEditCategoryColor(selected.color);
+        setIsEditCategoryModalOpen(true);
+      }
+    };
+    const handleDelete = (e: React.MouseEvent) => {
+      e.stopPropagation();
+      if (selected) {
+        setEditCategoryId(null);
+        setDeleteCategoryId(selected.id);
+      }
+    };
+
+    return (
+      <div className="relative w-full mb-4">
+        <button
+          type="button"
+          className="p-2 rounded-2xl w-full shadow-sm shadow-cyan-200 text-center flex items-center justify-between"
+          style={{ background: selected ? hexToRgba(selected.color, 0.7) : 'transparent', color: selected ? getContrastColor(selected.color) : '#ededed' }}
+          onClick={() => setOpen(o => !o)}
+        >
+          <span className="flex-1 text-left">{selected ? selected.name : 'Sin categoría'}</span>
+          <span className="flex items-center gap-1 ml-2">
+            {selected && (
+              <>
+                <Pencil className="w-4 h-4 hover:text-cyan-300 cursor-pointer" onClick={handleEdit} />
+                <Trash2 className="w-4 h-4 hover:text-red-400 cursor-pointer" onClick={handleDelete} />
+              </>
+            )}
+            {open ? <ChevronUp className="w-4 h-4 cursor-pointer" /> : <ChevronDown className="w-4 h-4 cursor-pointer" />}
+          </span>
+        </button>
+        {open && (
+          <ul className="absolute z-50 w-full mt-1 rounded-2xl shadow-lg bg-black/80 backdrop-blur p-1 max-h-48 overflow-y-auto">
+            <li
+              className="p-2 rounded cursor-pointer hover:bg-cyan-800 text-foreground"
+              style={{ background: 'transparent', color: '#ededed' }}
+              onClick={() => { onChange(null); setOpen(false); }}
+            >
+              Sin categoría
+            </li>
+            <li
+              className="p-2 rounded cursor-pointer hover:bg-cyan-700 text-cyan-300 font-bold border-b border-cyan-700"
+              style={{ background: 'rgba(0,212,243,0.15)' }}
+              onClick={() => { setOpen(false); setIsCreateCategoryModalOpen(true); }}
+            >
+              + Nueva categoría
+            </li>
+            {categories.map(cat => (
+              <li
+                key={cat.id}
+                className="p-2 rounded cursor-pointer hover:brightness-110"
+                style={{
+                  background: hexToRgba(cat.color, 0.7),
+                  color: getContrastColor(cat.color)
+                }}
+                onClick={() => { onChange(cat.id); setOpen(false); }}
+              >
+                {cat.name}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    );
+  }
+
+  // Agregar función utilitaria para contraste
+  function getContrastColor(hex: string) {
+    // Quitar # si existe
+    hex = hex.replace('#', '');
+    // Convertir a RGB
+    const r = parseInt(hex.substring(0,2), 16);
+    const g = parseInt(hex.substring(2,4), 16);
+    const b = parseInt(hex.substring(4,6), 16);
+    // Calcular luminancia
+    const luminance = (0.299*r + 0.587*g + 0.114*b) / 255;
+    return luminance > 0.5 ? '#222' : '#fff';
+  }
+
+  // Utilidad para convertir hex a rgba con alpha
+  function hexToRgba(hex: string, alpha: number) {
+    hex = hex.replace('#', '');
+    const r = parseInt(hex.substring(0,2), 16);
+    const g = parseInt(hex.substring(2,4), 16);
+    const b = parseInt(hex.substring(4,6), 16);
+    return `rgba(${r},${g},${b},${alpha})`;
+  }
+
   return (
     <main className="text-center flex flex-col self-center items-center h-[90dvh] w-[100dvw]">
       {!(isCreateModalOpen || isEditModalOpen) ?
@@ -203,7 +321,13 @@ export default function DashboardPage() {
                       <h2 className="text-2xl text-cyan-400 underline"><strong>{task.title}</strong></h2>
                       <p className='break-words text-cyan-200 p-6'>{task.description}</p>
                       {category && (
-                        <span className="inline-block px-2 py-1 rounded text-white text-xs mb-2" style={{ backgroundColor: category.color }}>
+                        <span
+                          className="inline-block px-2 py-1 rounded text-xs mb-2"
+                          style={{
+                            background: hexToRgba(category.color, 0.7),
+                            color: getContrastColor(category.color)
+                          }}
+                        >
                           {category.name}
                         </span>
                       )}
@@ -301,7 +425,7 @@ export default function DashboardPage() {
         </>
         :
         <>
-        <Modal isOpen={isCreateModalOpen && !isCreateCategoryModalOpen && !isEditCategoryModalOpen} onClose={() => setIsCreateModalOpen(false)}>
+        <Modal isOpen={isCreateModalOpen && !isCreateCategoryModalOpen && !isEditCategoryModalOpen && !deleteCategoryId} onClose={() => setIsCreateModalOpen(false)}>
             <form onSubmit={handleAddTask} className=" lg:max-w-[40dvw] p-5 rounded-md 
             shadow-2xl shadow-cyan-900 backdrop-blur-xs">
               <h2 className="text-2xl mb-4 text-cyan-400">Agregar nueva tarea</h2>
@@ -322,34 +446,11 @@ export default function DashboardPage() {
                 min-h-[5dvh] text-center"
                 required
               />
-              <select
-                value={newTaskCategoryId ?? ''}
-                onChange={e => setNewTaskCategoryId(e.target.value ? Number(e.target.value) : null)}
-                className="p-2 rounded-2xl w-full mb-4 shadow-sm shadow-cyan-200 text-center"
-              >
-                <option value="">Sin categoría</option>
-                {categories.map(category => (
-                  <option key={category.id} value={category.id}>{category.name}</option>
-                ))}
-              </select>
-              <div className="flex justify-center gap-2 mb-4">
-                <button type="button" onClick={() => setIsCreateCategoryModalOpen(true)} className="flex items-center gap-1 bg-cyan-500 text-white px-2 py-1 rounded-2xl hover:bg-cyan-700">
-                  <Plus className="w-4 h-4" /> Nueva
-                </button>
-                {newTaskCategoryId && (
-                  <button type="button" onClick={() => {
-                    const cat = categories.find(c => c.id === newTaskCategoryId);
-                    if (cat) {
-                      setEditCategoryId(cat.id);
-                      setEditCategoryName(cat.name);
-                      setEditCategoryColor(cat.color);
-                      setIsEditCategoryModalOpen(true);
-                    }
-                  }} className="flex items-center gap-1 bg-cyan-500 text-white px-2 py-1 rounded-2xl hover:bg-cyan-700">
-                    <Pencil className="w-4 h-4" /> Editar
-                  </button>
-                )}
-              </div>
+              <SelectCategoria
+                value={newTaskCategoryId}
+                onChange={setNewTaskCategoryId}
+                categories={categories}
+              />
               <div className='flex justify-evenly'>
                 <button type="submit" 
                 className="p-4 mr-2 relative group hover:cursor-pointer">
@@ -368,7 +469,7 @@ export default function DashboardPage() {
               </div>
             </form>
           </Modal>
-          <Modal isOpen={isEditModalOpen && !isCreateCategoryModalOpen && !isEditCategoryModalOpen} onClose={() => setIsEditModalOpen(false)}>
+          <Modal isOpen={isEditModalOpen && !isCreateCategoryModalOpen && !isEditCategoryModalOpen && !deleteCategoryId} onClose={() => setIsEditModalOpen(false)}>
             <form onSubmit={handleUpdateTask} className=" lg:max-w-[40dvw] p-5 rounded-md 
             shadow-2xl shadow-cyan-900 backdrop-blur-xs">
               <h2 className="text-2xl mb-4 text-cyan-400">Editar tarea</h2>
@@ -388,34 +489,11 @@ export default function DashboardPage() {
                 required
                 ref={descriptionRef}
               />
-              <select
-                value={editTaskCategoryId ?? ''}
-                onChange={e => setEditTaskCategoryId(e.target.value ? Number(e.target.value) : null)}
-                className="p-2 rounded-2xl w-full mb-4 shadow-sm shadow-cyan-200 text-center"
-              >
-                <option value="">Sin categoría</option>
-                {categories.map(category => (
-                  <option key={category.id} value={category.id}>{category.name}</option>
-                ))}
-              </select>
-              <div className="flex justify-center gap-2 mb-4">
-                <button type="button" onClick={() => setIsCreateCategoryModalOpen(true)} className="flex items-center gap-1 bg-cyan-500 text-white px-2 py-1 rounded-2xl hover:bg-cyan-700">
-                  <Plus className="w-4 h-4" /> Nueva
-                </button>
-                {editTaskCategoryId && (
-                  <button type="button" onClick={() => {
-                    const cat = categories.find(c => c.id === editTaskCategoryId);
-                    if (cat) {
-                      setEditCategoryId(cat.id);
-                      setEditCategoryName(cat.name);
-                      setEditCategoryColor(cat.color);
-                      setIsEditCategoryModalOpen(true);
-                    }
-                  }} className="flex items-center gap-1 bg-cyan-500 text-white px-2 py-1 rounded-2xl hover:bg-cyan-700">
-                    <Pencil className="w-4 h-4" /> Editar
-                  </button>
-                )}
-              </div>
+              <SelectCategoria
+                value={editTaskCategoryId}
+                onChange={setEditTaskCategoryId}
+                categories={categories}
+              />
               <div className='flex justify-evenly'>
                 <button type="submit" 
                 className="p-4 mr-2 relative group hover:cursor-pointer">
@@ -497,6 +575,22 @@ export default function DashboardPage() {
             </button>
           </div>
         </form>
+      </Modal>
+      {/* Modal eliminar categoría desde dashboard */}
+      <Modal isOpen={deleteCategoryId !== null} onClose={() => setDeleteCategoryId(null)}>
+        <div className="p-5 rounded-md shadow-2xl shadow-cyan-900 backdrop-blur-xs">
+          <h2 className="text-xl mb-4 text-cyan-400">¿Eliminar esta categoría?</h2>
+          <div className="flex justify-evenly">
+            <button onClick={() => deleteCategoryId && handleDeleteCategory(deleteCategoryId)} className="p-4 mr-2 relative group hover:cursor-pointer">
+              <Trash2 className="absolute inset-0 w-full h-full text-red-600 filter transition-all duration-300 opacity-100 blur-[4px] group-hover:scale-150" />
+              <Trash2 className="absolute inset-0 w-full h-full text-red-600 transition-all duration-300 group-hover:scale-150" />
+            </button>
+            <button onClick={() => setDeleteCategoryId(null)} className="p-4 mr-2 relative group hover:cursor-pointer">
+              <X className="absolute inset-0 w-full h-full text-cyan-600 filter transition-all duration-300 opacity-100 blur-[4px] group-hover:scale-150" />
+              <X className="absolute inset-0 w-full h-full text-cyan-600 transition-all duration-300 group-hover:scale-150" />
+            </button>
+          </div>
+        </div>
       </Modal>
     </main>
   );
