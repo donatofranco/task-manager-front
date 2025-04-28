@@ -7,10 +7,10 @@ import { Task, Category } from '@/types';
 import Modal from '@/components/Modal';
 import Loading from '../loading/page';
 import CategoryModalForm from '@/components/CategoryModalForm';
-import CategoryDeleteModal from '@/components/CategoryDeleteModal';
 import TaskList from '@/components/TaskList';
 import TaskForm from '@/components/TaskForm';
 import { Plus } from 'lucide-react';
+import ConfirmModal from '@/components/ConfirmModal';
 
 export default function DashboardPage() {
   const { isAuthenticated } = useAuth();
@@ -50,6 +50,7 @@ export default function DashboardPage() {
 
   // Eliminar categoría desde dashboard
   const [deleteCategoryId, setDeleteCategoryId] = useState<number | null>(null);
+  const [deleteTaskId, setDeleteTaskId] = useState<number | null>(null);
 
   async function validateAuth(auth: boolean) {
     if (!auth) {
@@ -120,11 +121,16 @@ export default function DashboardPage() {
   };
 
   const handleDeleteTask = async (id: number) => {
+    setDeleteTaskId(id);
+  };
+  const confirmDeleteTask = async () => {
+    if (deleteTaskId === null) return;
     try {
-      await deleteTask(id);
-      setTasks(tasks.filter(task => task.id !== id));
+      await deleteTask(deleteTaskId);
+      setTasks(tasks.filter(task => task.id !== deleteTaskId));
+      setDeleteTaskId(null);
     } catch (error: any) {
-      console.error(error.message);
+      setError(error.message);
     }
   };
 
@@ -196,7 +202,7 @@ export default function DashboardPage() {
 
   return (
     <main className="text-center flex flex-col self-center items-center h-[90dvh] w-[100dvw]">
-      {!(isCreateModalOpen || isEditModalOpen) ?
+      {!(isCreateModalOpen || isEditModalOpen || deleteTaskId) ?
         <>
           {error && <p className="text-red-500">{error}</p>}
           <div className='absolute lg:static lg:w-full h-[5dvh] mt-4 flex justify-center items-center top-[85dvh] left-[90dvw] w-[5dvw] z-10'>
@@ -289,10 +295,17 @@ export default function DashboardPage() {
         setColor={setEditCategoryColor}
       />
       {/* Modal eliminar categoría desde dashboard */}
-      <CategoryDeleteModal
+      <ConfirmModal
         isOpen={deleteCategoryId !== null}
         onClose={() => setDeleteCategoryId(null)}
-        onDelete={() => deleteCategoryId && handleDeleteCategory(deleteCategoryId)}
+        onConfirm={() => deleteCategoryId && handleDeleteCategory(deleteCategoryId)}
+        message='¿Eliminar esta categoría?'
+      />
+      <ConfirmModal
+        isOpen={deleteTaskId !== null}
+        onClose={() => setDeleteTaskId(null)}
+        onConfirm={confirmDeleteTask}
+        message="¿Eliminar esta tarea?"
       />
     </main>
   );

@@ -5,13 +5,14 @@ import React from 'react';
 interface CategoryDeleteModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onDelete: () => void;
+  onConfirm: () => void;
+  message: string;
 }
 
-const CategoryDeleteModal: React.FC<CategoryDeleteModalProps> = ({ isOpen, onClose, onDelete }) => (
+const ConfirmModal: React.FC<CategoryDeleteModalProps> = ({ isOpen, onClose, onConfirm: onDelete, message }) => (
   <Modal isOpen={isOpen} onClose={onClose}>
     <div className="p-5 rounded-md shadow-2xl shadow-cyan-900 backdrop-blur-xs">
-      <h2 className="text-xl mb-4 text-cyan-400">¿Eliminar esta categoría?</h2>
+      <h2 className="text-xl mb-4 text-cyan-400">{message}</h2>
       <div className="flex justify-evenly">
         <button onClick={onDelete} className="p-4 mr-2 relative group hover:cursor-pointer">
           <Trash2 className="absolute inset-0 w-full h-full text-red-600 filter transition-all duration-300 opacity-100 blur-[4px] group-hover:scale-150" />
@@ -26,4 +27,4 @@ const CategoryDeleteModal: React.FC<CategoryDeleteModalProps> = ({ isOpen, onClo
   </Modal>
 );
 
-export default CategoryDeleteModal;
+export default ConfirmModal;
